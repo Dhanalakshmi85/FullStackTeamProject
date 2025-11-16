@@ -6,3 +6,12 @@ main = Blueprint("main", __name__)
 
 def home():
     return render_template("home.html", title="Home Page")
+
+
+@main.route("/menu", methods=["GET"])
+def menu():
+    return render_template("menu.html", title="Menu Page")
+
+@main.route("/contact", methods=["GET"])
+def contact():
+    return render_template("contact.html", title="Contact Page")

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Restaurant - Home</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 
 <body>
@@ -13,9 +13,9 @@
     <h1>My Restaurant</h1>
     <nav>
       <a href="#">Home</a>
-      <a href="menu.html">Menu</a>
+      <a href="{{ url_for('menu') }}">Menu</a>
       <a href="#">Admin</a>
-      <a href="contact.html">Contact</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
     </nav>
   </header>
 

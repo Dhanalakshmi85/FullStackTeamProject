@@ -1,0 +1,138 @@
+html{
+    scroll-behavior: smooth;
+} 
+
+body{
+  font-family: 'Poppins', sans-serif;
+  background-color: #0f0e0e;
+  margin: 0;
+  padding: 0;
+  color: #e99e0a;
+}
+
+header {
+  text-align: center;
+  background-color: #ff944d;
+  color: white;
+  padding: 30px 10px;
+  border-bottom: 5px solid #ff7f2a;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+header p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.menu-links a {
+  text-decoration: none;
+  background-color: white;
+  color: #ff6600;
+  padding: 10px 15px;
+  margin: 0 10px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.menu-links a:hover {
+  background-color: #ff6600;
+  color: white;
+}
+
+.menu-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.menu-left,
+.menu-right {
+  width: 25%;
+}
+
+.menu-center {
+  width: 30%;
+  text-align: center;
+}
+
+.menu-item {
+  margin-bottom: 25px;
+}
+
+.menu-item img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff944d;
+  transition: transform 0.3s ease;
+}
+
+.menu-item img:hover {
+  transform: scale(1.1);
+}
+
+.menu-item h3 {
+  margin: 10px 0 5px;
+  color: #ff9d00;
+}
+
+.menu-item p {
+  font-size: 0.9rem;
+  color: #ed9508;
+  margin-top: 0;
+}
+
+/* Center main dish (same size as others) */
+.main-dish {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff944d;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #ff6600;
+}
+
+/* Fixed Back to Main Menu button */
+.back {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff6600;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.back:hover {
+  background-color: #ff944d;
+}
+
+footer {
+  background-color: #ff944d;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 40px;
+}
