@@ -1,0 +1,87 @@
+ADMINPANEL
+<style>
+    body {
+        background-color: #ffe6f2; /* light pink */
+    }
+    .navbar-custom {
+        background-color: #ffb3d9; /* soft pink */
+        padding: 12px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
+    .navbar-custom a {
+        color: #4a004e;
+        font-weight: 600;
+        margin-right: 20px;
+        text-decoration: none;
+    }
+    .navbar-custom a:hover {
+        text-decoration: underline;
+    }
+    .table-pink {
+        background-color: #ffd6ea;
+    }
+    .table-pink thead {
+        background-color: #ff99cc;
+        color: #4a004e;
+    }
+</style>
+
+<!-- Navigation Bar -->
+<nav class="navbar-custom mb-4">
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/orders">Orders</a>
+    <a href="/admin/customers">Customers</a>
+    <a href="/admin/products">Products</a>
+    <a href="/admin/settings">Settings</a>
+</nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4" style="color:#4a004e;">Orders</h2>
+
+    <table class="table table-pink table-striped table-hover rounded shadow-sm" style="border-collapse: separate; border-spacing: 0 10px;">
+        <thead>
+            <tr style="background: white; border-radius: 12px;">
+                <th style="padding: 15px;">ID</th>
+                <th style="padding: 15px;">Customer</th>
+                <th style="padding: 15px;">Items</th>
+                <th style="padding: 15px;">Total</th>
+                <th style="padding: 15px;">Status</th>
+                <th style="padding: 15px;">Time</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- Customer 1 -->
+            <tr style="background: white; border-radius: 12px;">
+                <td style="padding: 15px;">001</td>
+                <td style="padding: 15px;">John</td>
+                <td style="padding: 15px;">Curd Rice, Dosa</td>
+                <td style="padding: 15px;">$15</td>
+                <td style="padding: 15px;"><span class="badge bg-warning text-dark">Pending</span></td>
+                <td style="padding: 15px;">10:32 AM</td>
+            </tr>
+
+            <!-- Customer 2 -->
+            <tr style="background: white; border-radius: 12px;">
+                <td style="padding: 15px;">002</td>
+                <td style="padding: 15px;">Maria</td>
+                <td style="padding: 15px;">Palak Paneer, Dosa</td>
+                <td style="padding: 15px;">$20</td>
+                <td style="padding: 15px;"><span class="badge bg-success">Completed</span></td>
+                <td style="padding: 15px;">11:10 AM</td>
+            </tr>
+
+            <!-- Customer 3 -->
+            <tr style="background: white; border-radius: 12px;">
+                <td style="padding: 15px;">003</td>
+                <td style="padding: 15px;">Peter</td>
+                <td style="padding: 15px;">Curd Rice, Palak Paneer</td>
+                <td style="padding: 15px;">$12</td>
+                <td style="padding: 15px;"><span class="badge bg-danger">Cancelled</span></td>
+                <td style="padding: 15px;">12:05 PM</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
