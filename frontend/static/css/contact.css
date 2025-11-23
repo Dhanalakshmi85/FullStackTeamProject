@@ -1,3 +1,41 @@
+/* ✅ NAVBAR STYLING (add this at the TOP) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #e91b4f;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #e91b4f;
+}
+/* ✅ END NAVBAR */
+
+
 /* Reset default styles */
 * {
   margin: 0;
