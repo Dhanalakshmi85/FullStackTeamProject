@@ -13,9 +13,11 @@
     <h1>My Restaurant</h1>
     <nav>
       <a href="#">Home</a>
-      <a href="{{ url_for('menu') }}">Menu</a>
+      <a href="{{ url_for('main.menu') }}">Menu</a>
       <a href="#">Admin</a>
-      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('main.contact') }}">Contact</a>
+      <a href="/cart" class="cart-link">
+      🛒 <span id="cart-count">0</span></a>
     </nav>
   </header>
 
@@ -47,6 +49,23 @@
   <footer>
     © 2025 My Restaurant — Fresh & Delicious Every Day
   </footer>
+
+   <script src="/frontend/static/js/cartCount.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 </body>
 
 </html>

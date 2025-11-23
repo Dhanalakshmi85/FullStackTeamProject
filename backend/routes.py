@@ -15,3 +15,7 @@ def menu():
 @main.route("/contact", methods=["GET"])
 def contact():
     return render_template("contact.html", title="Contact Page")
+
+@main.route("/cart", methods=["GET"])
+def cart():
+    return render_template("cart.html")    
