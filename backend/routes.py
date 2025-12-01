@@ -19,3 +19,7 @@ def contact():
 @main.route("/cart", methods=["GET"])
 def cart():
     return render_template("cart.html")    
+
+@main.route('/reservation')
+def reservation():
+    return render_template('reservation.html')
