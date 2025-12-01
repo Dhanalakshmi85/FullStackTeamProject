@@ -23,3 +23,8 @@ def cart():
 @main.route("/login", methods=["GET"])
 def login_page():
     return render_template("login.html", title="Login Page")
+    return render_template("cart.html")    
+
+@main.route('/reservation')
+def reservation():
+    return render_template('reservation.html')

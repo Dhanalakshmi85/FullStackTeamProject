@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reservation.css') }}" />
+</head>
+<body>
+    <!-- ✅ Added Navbar -->
+  <nav class="navbar">
+      <div class="logo">My Restaurant</div>
+      <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/admin">Admin</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <a href="/cart" class="cart-link">
+          🛒 <span id="cart-count">0</span></a>
+      </ul>
+  </nav>
+  <!-- ✅ End Navbar -->
+    <section class="reservation-container">
+        <h1 class="title">MAKE A RESERVATION</h1>
+        <p class="subtitle">To help us find the best table for you, select the preferred party size, date, and time of your reservation.</p>
+
+        <form class="reservation-form">
+            <div class="form-group">
+                <label>Party size</label>
+                <select>
+                    <option>2 guests</option>
+                    <option>3 guests</option>
+                    <option>4 guests</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" />
+            </div>
+
+            <div class="form-group">
+                <label>Time</label>
+                <select>
+                    <option>8:00 AM</option>
+                    <option>8:30 AM</option>
+                    <option>9:00 AM</option>
+                </select>
+            </div>
+        </form>
+
+        <hr />
+
+        <div class="time-slots">
+            <button>8:30 PM</button>
+            <button>8:45 PM</button>
+            <button>9:00 PM</button>
+            <button>9:15 PM</button>
+            <button>9:30 PM</button>
+            <button>9:45 PM</button>
+            <button>10:00 PM</button>
+            <button>8:00 AM</button>
+            <button>8:15 AM</button>
+            <button>8:30 AM</button>
+            <button>8:45 AM</button>
+            <button>9:00 AM</button>
+            <button>9:15 AM</button>
+            <button>9:30 AM</button>
+            <button>9:45 AM</button>
+        </div>
+
+        <button class="reserve-btn">Reserve Now</button>
+
+        <footer>
+            @ 2025 my restaurant fresh & Delicious every day
+        </footer>
+    </section>
+</body>
+</html>
