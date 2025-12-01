@@ -1,13 +1,10 @@
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    
-    let totalQty = 0;
-    cart.forEach(item => {
-        totalQty += item.qty;
-    });
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
 
-    document.getElementById("cart-count").innerText = totalQty;
+    const countEl = document.getElementById("cart-count");
+    if (countEl) countEl.innerText = totalQty;
 }
 
-// run when page loads
+// Run on page load
 window.addEventListener("load", updateCartCount);

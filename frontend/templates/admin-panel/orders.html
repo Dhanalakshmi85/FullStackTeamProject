@@ -1,87 +1,77 @@
 ADMINPANEL
+{% extends "layout.html" %}
+
+{% block head %}
 <style>
-    body {
-        background-color: #ffe6f2; /* light pink */
-    }
-    .navbar-custom {
-        background-color: #ffb3d9; /* soft pink */
-        padding: 12px;
-        border-radius: 8px;
-        box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-    }
-    .navbar-custom a {
-        color: #4a004e;
-        font-weight: 600;
-        margin-right: 20px;
-        text-decoration: none;
-    }
-    .navbar-custom a:hover {
-        text-decoration: underline;
-    }
-    .table-pink {
-        background-color: #ffd6ea;
-    }
-    .table-pink thead {
-        background-color: #ff99cc;
-        color: #4a004e;
-    }
+.orders-container {
+    background-color: #fff0f5;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    width: 95%;
+    max-width: 1000px;
+}
+
+.table-orders thead {
+    background-color: #ff99cc;
+    color: #4a004e;
+}
+
+.table-orders tbody tr {
+    background-color: #ffd6ea;
+}
+
+.table-orders td, .table-orders th {
+    padding: 15px;
+    text-align: center;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+}
 </style>
+{% endblock %}
 
-<!-- Navigation Bar -->
-<nav class="navbar-custom mb-4">
-    <a href="/admin/dashboard">Dashboard</a>
-    <a href="/admin/orders">Orders</a>
-    <a href="/admin/customers">Customers</a>
-    <a href="/admin/products">Products</a>
-    <a href="/admin/settings">Settings</a>
-</nav>
+{% block content %}
+<div class="orders-container">
+    <h2 style="color:#4a004e; margin-bottom: 20px;">Orders</h2>
 
-<div class="container mt-4">
-    <h2 class="mb-4" style="color:#4a004e;">Orders</h2>
-
-    <table class="table table-pink table-striped table-hover rounded shadow-sm" style="border-collapse: separate; border-spacing: 0 10px;">
+    <table class="table table-orders table-striped table-hover rounded shadow-sm" style="border-collapse: separate; border-spacing: 0 10px;">
         <thead>
-            <tr style="background: white; border-radius: 12px;">
-                <th style="padding: 15px;">ID</th>
-                <th style="padding: 15px;">Customer</th>
-                <th style="padding: 15px;">Items</th>
-                <th style="padding: 15px;">Total</th>
-                <th style="padding: 15px;">Status</th>
-                <th style="padding: 15px;">Time</th>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Time</th>
             </tr>
         </thead>
-
         <tbody>
-            <!-- Customer 1 -->
-            <tr style="background: white; border-radius: 12px;">
-                <td style="padding: 15px;">001</td>
-                <td style="padding: 15px;">John</td>
-                <td style="padding: 15px;">Curd Rice, Dosa</td>
-                <td style="padding: 15px;">$15</td>
-                <td style="padding: 15px;"><span class="badge bg-warning text-dark">Pending</span></td>
-                <td style="padding: 15px;">10:32 AM</td>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.items }}</td>
+                <td>${{ order.total }}</td>
+                <td>
+                    {% if order.status == 'Pending' %}
+                        <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                    {% elif order.status == 'Completed' %}
+                        <span class="badge bg-success">{{ order.status }}</span>
+                    {% elif order.status == 'Cancelled' %}
+                        <span class="badge bg-danger">{{ order.status }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.time }}</td>
             </tr>
-
-            <!-- Customer 2 -->
-            <tr style="background: white; border-radius: 12px;">
-                <td style="padding: 15px;">002</td>
-                <td style="padding: 15px;">Maria</td>
-                <td style="padding: 15px;">Palak Paneer, Dosa</td>
-                <td style="padding: 15px;">$20</td>
-                <td style="padding: 15px;"><span class="badge bg-success">Completed</span></td>
-                <td style="padding: 15px;">11:10 AM</td>
-            </tr>
-
-            <!-- Customer 3 -->
-            <tr style="background: white; border-radius: 12px;">
-                <td style="padding: 15px;">003</td>
-                <td style="padding: 15px;">Peter</td>
-                <td style="padding: 15px;">Curd Rice, Palak Paneer</td>
-                <td style="padding: 15px;">$12</td>
-                <td style="padding: 15px;"><span class="badge bg-danger">Cancelled</span></td>
-                <td style="padding: 15px;">12:05 PM</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
+{% endblock %}
 

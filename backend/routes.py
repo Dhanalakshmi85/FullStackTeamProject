@@ -18,4 +18,8 @@ def contact():
 
 @main.route("/cart", methods=["GET"])
 def cart():
-    return render_template("cart.html")    
+    return render_template("cart.html")   
+
+@main.route("/login", methods=["GET"])
+def login_page():
+    return render_template("login.html", title="Login Page")

@@ -1,5 +1,6 @@
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 let menuQt = {};
-let cart = []
 
 function changeMenuQty(itemName, amt) {
     if (!menuQt[itemName]) {
@@ -39,6 +40,8 @@ function addToCart(itemName, itemPrice) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
+
+    updateCartCount();
 
     console.log("Cart:", cart);
 

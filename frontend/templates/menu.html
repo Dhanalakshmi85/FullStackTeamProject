@@ -48,12 +48,10 @@
           </div>
 
 
-          <a href="#" 
-          class="btn btn-primary add-to-cart"
-          data-name="palak-paneer"
-          data-price=10>
-          Add to Cart
-         </a>
+        <button class="btn btn-primary add-to-cart"
+           onclick="addToCart('palak-paneer', 10)">
+           Add to Cart
+         </button>
 
         </div>
 
@@ -68,12 +66,10 @@
             <button class="qty-btn" onclick="changeMenuQty('gravy-paneer', 1)">+</button>
           </div>
           
-         <a href="#" 
-          class="btn btn-primary add-to-cart"
-          data-name="gravy-paneer"
-          data-price=15>
-          Add to Cart
-          </a>
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('gravy-paneer', 15)">
+            Add to Cart
+          </button>
  
 
         </div>
@@ -89,13 +85,12 @@
             <button class="qty-btn" onclick="changeMenuQty('dal-makhani', 1)">+</button>
           </div>
 
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('dal-makhani', 10)">
+            Add to Cart
+          </button>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="dal-makhani"
-           data-price=10>
-           Add to Cart
-         </a>
+         
         </div>
       </div>
 
@@ -110,12 +105,10 @@
             <button class="qty-btn" onclick="changeMenuQty('main-combo', 1)">+</button>
           </div>
 
-        <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="main-combo"
-           data-price=15>
-           Add to Cart
-         </a>
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('main-combo', 19.50)">
+            Add to Cart
+          </button>
 
       </div>
 
@@ -126,18 +119,16 @@
           <p>Soft, flaky Indian bread stuffed with spiced potatoes or paneer.</p>
 
          <div class="qty-buttons">
-            <button class="qty-btn" onclick="changeMenuQty('gravy-paneer', -1)">-</button>
-            <span id="qty-gravy-paneer">0</span>
-            <button class="qty-btn" onclick="changeMenuQty('gravy-paneer', 1)">+</button>
+            <button class="qty-btn" onclick="changeMenuQty('combo', -1)">-</button>
+            <span id="qty-combo">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('combo', 1)">+</button>
           </div>
 
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="gravy-paneer"
-           data-price=8>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('combo', 8)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -152,12 +143,10 @@
             <button class="qty-btn" onclick="changeMenuQty('chole-chana', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="chole-chana"
-           data-price=8>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('chole-chana', 8)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -172,12 +161,10 @@
             <button class="qty-btn" onclick="changeMenuQty('lunch-plate', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="lunch-plate"
-           data-price=17.50>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate', 17.50)">
+            Add to Cart
+          </button>
 
         </div>
       </div>
@@ -200,12 +187,10 @@
             <button class="qty-btn" onclick="changeMenuQty('dosa', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="dosa"
-           data-price=10>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('dosa', 10)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -221,12 +206,10 @@
           </div>
 
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="idli"
-           data-price=8>
-           Add to Cart
-         </a>
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('idli', 8)">
+            Add to Cart
+          </button>
 
 
         </div>
@@ -242,12 +225,10 @@
             <button class="qty-btn" onclick="changeMenuQty('vada', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="vada"
-           data-price=15>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('vada', 15)">
+            Add to Cart
+          </button>
 
         </div>
       </div>
@@ -263,18 +244,16 @@
            <button class="qty-btn" onclick="changeMenuQty('uthappam', 1)">+</button>
         </div>
 
-        <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="uthappam"
-           data-price=19.50>
-           Add to Cart
-         </a>
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('uthappam', 19.50)">
+            Add to Cart
+          </button>
 
       </div>
 
       <div class="menu-right">
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/curd-rise.jpg') }}" alt="Curd Rice">
+          <img src="{{ url_for('static', filename='img/curdrice.jpg') }}" alt="Curd Rice">
           <h3>Curd Rice - €8</h3>
           <p>Cool, creamy rice mixed with yogurt and tempered spices.</p>
  
@@ -284,12 +263,10 @@
             <button class="qty-btn" onclick="changeMenuQty('curd-rice', 1)">+</button>
           </div>
           
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="curd-rice"
-           data-price=8>
-           Add to Cart
-         </a>
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curd-rice', 8)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -304,12 +281,10 @@
             <button class="qty-btn" onclick="changeMenuQty('curry', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="curry"
-           data-price=10>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curry', 10)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -324,12 +299,10 @@
             <button class="qty-btn" onclick="changeMenuQty('lunch-plate2', 1)">+</button>
           </div>
           
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="lunch-plate2"
-           data-price=17.50>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate2', 17.50)">
+            Add to Cart
+          </button>
 
         </div>
       </div>
@@ -352,12 +325,10 @@
             <button class="qty-btn" onclick="changeMenuQty('green-bean', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="green-bean"
-           data-price=10>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('green-bean', 10)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -373,12 +344,10 @@
           </div>
           
           
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="curry2"
-           data-price=15>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curry2', 15)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -393,12 +362,10 @@
             <button class="qty-btn" onclick="changeMenuQty('full-dish-sri', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="full-dish-sri"
-           data-price=10>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('full-dish-sri', 10)">
+            Add to Cart
+          </button>
 
         </div>
       </div>
@@ -414,12 +381,10 @@
            <button class="qty-btn" onclick="changeMenuQty('combo-sri', 1)">+</button>
         </div>
 
-        <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="combo-sri"
-           data-price=19.50>
-           Add to Cart
-         </a>
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('combo-sri', 19.50)">
+            Add to Cart
+          </button>
 
       </div>
 
@@ -435,12 +400,10 @@
             <button class="qty-btn" onclick="changeMenuQty('egg-curry', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="egg-curry"
-           data-price=8>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('egg-curry', 8)">
+            Add to Cart
+          </button>
 
         </div>
 
@@ -455,12 +418,10 @@
             <button class="qty-btn" onclick="changeMenuQty('meat-rice', 1)">+</button>
           </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="meat-rice"
-           data-price=8>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('meat-rice', 8)">
+            Add to Cart
+          </button>
         </div>
 
         <div class="menu-item">
@@ -474,12 +435,10 @@
               <button class="qty-btn" onclick="changeMenuQty('lunch-plate2-sri', 1)">+</button>
             </div>
 
-          <a href="#" 
-           class="btn btn-primary add-to-cart"
-           data-name="lunch-plate2-sri"
-           data-price=17.50>
-           Add to Cart
-         </a>
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate2-sri', 17.50)">
+            Add to Cart
+          </button>
 
         </div>
       </div>
@@ -487,8 +446,8 @@
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
-  <script src="{{ url_for('static', filename='js/menucart.js') }}"></script>
+  <script src="/static/js/menucart.js"></script>
 
-  <script src="/frontend/static/js/cartCount.js"></script>
+  <script src="/static/js/cart.js"></script>
 </body>
 </html>

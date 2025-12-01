@@ -2,10 +2,16 @@
 
 <div id="cart-items"></div>
 
-<h3>Total: €<span id="cart-total">0</span></h3>
+<h3>Total: €<span id="cart-total">0.00</span></h3>
+
+<p>Items in cart: <span id="cart-count">0</span></p>
+
+
+<!-- Checkout button -->
+<button id="checkout-btn" class="btn btn-success">Proceed to Checkout</button>
 
 <a href="/menu" class="btn btn-primary">Continue Shopping</a>
 
-<!-- <script src="{{ url_for('static', filename='js/cart.js') }}"></script> -->
-
-<script src="/frontend/static/js/cart.js"></script>
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/cartCount.js') }}"></script>
+<script src="{{ url_for('static', filename='js/menucart.js') }}"></script>
