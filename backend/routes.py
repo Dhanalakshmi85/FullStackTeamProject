@@ -20,11 +20,14 @@ def contact():
 def cart():
     return render_template("cart.html")   
 
-@main.route("/login", methods=["GET"])
-def login_page():
-    return render_template("login.html", title="Login Page")
-    return render_template("cart.html")    
+# @main.route("/login", methods=["GET"])
+# def login_page():
+#     return render_template("login.html", title="Login Page")   
 
 @main.route('/reservation')
 def reservation():
     return render_template('reservation.html')
+
+@main.route('/signup')
+def signup():
+    return render_template('signup.html')    

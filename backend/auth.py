@@ -59,15 +59,11 @@
 #     return redirect("/admin")
 
 
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, url_for
+from backend.models import get_user_by_email
+from werkzeug.security import check_password_hash
 
-auth = Blueprint("auth", __name__)
-
-# TEMPORARY USERS FOR TESTING (remove when DB is ready)
-FAKE_USERS = {
-    "admin@example.com": {"password": "admin123", "role": "admin"},
-    "customer@example.com": {"password": "cust123", "role": "customer"}
-}
+auth = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -75,36 +71,77 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = FAKE_USERS.get(email)
+        print("DEBUG: POST received")
+        print("DEBUG: email:", email)
 
-        if user and user["password"] == password:
-            session["logged_in"] = True
-            session["email"] = email
-            session["role"] = user["role"]
+        user = get_user_by_email(email)
+        print("DEBUG: user:", user)
 
-            if user["role"] == "admin":
-                return redirect("/admin")
-            return redirect("/")
+        # if not user:
+        #     return render_template("login.html", error="User not found")
 
-        return render_template("login.html", error="Invalid credentials")
+        # # Use Werkzeug check_password_hash (works with your stored scrypt hashes)
+        # if not check_password_hash(user["password"], password):
+        #     return render_template("login.html", error="Incorrect password")
 
+        # Save session
+        session["logged_in"] = True
+        session["email"] = user["email"]
+        session["role"] = user["role"]
+        session["user_id"] = str(user["_id"])
+        print("DEBUG: session:", dict(session))
+
+        print("DEBUG: check_password_hash result:", check_password_hash(user["password"], password))
+        # Redirect based on role
+        if user["role"].lower() == "admin":
+            print("DEBUG: redirecting to admin dashboard")
+            return redirect("/admin/dashboard")  # or url_for('admin_bp.dashboard') if defined
+        else:
+            print("DEBUG: redirecting to customer home")
+            return redirect(url_for("main.home"))  # safe redirect to home page
+
+    # GET request → show login page
     return render_template("login.html")
 
 
-# LOGOUT
-@auth.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
+# # LOGOUT
+# @auth.route("/logout")
+# def logout():
+#     session.clear()
+#     return redirect("/login")
 
 
 # FORCE ADMIN — FOR TESTING WITHOUT LOGIN PAGE
-@auth.route("/force-admin")
-def force_admin():
-    session["logged_in"] = True
-    session["role"] = "admin"
-    session["email"] = "forced-admin@example.com"
-    return redirect("/admin")
+# @auth.route("/force-admin")
+# def force_admin():
+#     session["logged_in"] = True
+#     session["role"] = "admin"
+#     session["email"] = "forced-admin@example.com"
+#     return redirect("/admin")
 
 
+
+@auth.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+
+        if password != confirm:
+            return render_template("signup.html", error="Passwords do not match")
+
+        # Check if email already exists
+        if get_user_by_email(email):
+            return render_template("signup.html", error="Email already registered")
+
+        # Hash password
+        hashed = generate_password_hash(password)
+
+        create_user(name, email, hashed, role="customer")
+
+        return redirect(url_for("auth.login"))
+
+    return render_template("signup.html")
 

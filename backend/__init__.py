@@ -3,7 +3,8 @@ from pathlib import Path
 from .routes import main  
 from .admin import admin_bp
 from .auth import auth
-from .models import db
+
+from backend.db import init_db
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR / "frontend" / "templates"
@@ -18,10 +19,10 @@ def create_app():
     )
 
     app.config["SECRET_KEY"] = "my_super_secret_key_123"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    db.init_app(app)
+    init_db("mongodb+srv://prutuwi:prumgdb96@cluster1.pkj9lpa.mongodb.net/?appName=Cluster1")
 
     app.register_blueprint(admin_bp)
     app.register_blueprint(main) 
