@@ -60,8 +60,8 @@
 
 
 from flask import Blueprint, render_template, request, redirect, session, url_for
-from backend.models import get_user_by_email
-from werkzeug.security import check_password_hash
+from backend.models import get_user_by_email, create_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -91,7 +91,7 @@ def login():
         session["user_id"] = str(user["_id"])
         print("DEBUG: session:", dict(session))
 
-        print("DEBUG: check_password_hash result:", check_password_hash(user["password"], password))
+        # print("DEBUG: check_password_hash result:", check_password_hash(user["password"], password))
         # Redirect based on role
         if user["role"].lower() == "admin":
             print("DEBUG: redirecting to admin dashboard")
