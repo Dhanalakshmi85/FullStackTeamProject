@@ -66,7 +66,9 @@ header p {
   width: 30%;
   text-align: center;
 }
-
+.menu-center img:hover{
+  transform: scale(1.1);
+}
 .menu-item {
   margin-bottom: 25px;
 }
@@ -83,6 +85,8 @@ header p {
 .menu-item img:hover {
   transform: scale(1.1);
 }
+
+
 
 .menu-item h3 {
   margin: 10px 0 5px;
