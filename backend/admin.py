@@ -149,12 +149,15 @@ def admin_dashboard():
     if not admin_required():
         return redirect("/login")
 
+       
+
     db = db_module.get_db()
     total_users = db["users"].count_documents({})
     total_orders = db["orders"].count_documents({})
     total_menu_items = db["menu"].count_documents({})
     total_reviews = db["reviews"].count_documents({})
     total_reservations = db["reservations"].count_documents({})
+    recent_orders = list(db["orders"].find().sort("time", -1).limit(10)) 
 
     return render_template(
         "admin-panel/dashboard.html",
@@ -162,7 +165,8 @@ def admin_dashboard():
         orders=total_orders,
         menu=total_menu_items,
         reviews=total_reviews,
-        reservations=total_reservations
+        reservations=total_reservations,
+        recent_orders=recent_orders
     )
 
 

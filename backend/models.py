@@ -149,12 +149,15 @@ def add_review(user_id, menu_id, rating, comment):
 
 # ------------ RESERVATIONS COLLECTION ------------
 def create_reservation(name, email, phone, party_size, date, time, notes=""):
+
+    date_dt = datetime.combine(date, datetime.min.time())
+
     reservation = {
         "name": name,
         "email": email,
         "phone": phone,
         "party_size": int(party_size),
-        "date": date,
+        "date": date_dt,       # datetime.date object
         "time": time,
         "notes": notes,
         "created_at": datetime.utcnow()

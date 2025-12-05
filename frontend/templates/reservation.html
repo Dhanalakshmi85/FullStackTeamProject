@@ -24,34 +24,49 @@
         <h1 class="title">MAKE A RESERVATION</h1>
         <p class="subtitle">To help us find the best table for you, select the preferred party size, date, and time of your reservation.</p>
 
-        <form class="reservation-form">
+     <form id="reservation-form">
+           
+         <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" required />
+         </div>
+
+         <div class="form-group">
+             <label>Email</label>
+             <input type="email" name="email" required />
+          </div>
+
+           <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" name="phone" required />
+            </div>
+
+
+
             <div class="form-group">
                 <label>Party size</label>
-                <select>
-                    <option>2 guests</option>
-                    <option>3 guests</option>
-                    <option>4 guests</option>
+                <select name="party_size">
+                    <option value="2">2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Date</label>
-                <input type="date" />
+                <input type="date" name="date"/>
             </div>
 
             <div class="form-group">
                 <label>Time</label>
-                <select>
+                <select name="time">
                     <option>8:00 AM</option>
                     <option>8:30 AM</option>
                     <option>9:00 AM</option>
                 </select>
             </div>
-        </form>
 
-        <hr />
-
-        <div class="time-slots">
+           <div class="time-slots">
             <button>8:30 PM</button>
             <button>8:45 PM</button>
             <button>9:00 PM</button>
@@ -68,12 +83,23 @@
             <button>9:30 AM</button>
             <button>9:45 AM</button>
         </div>
+        
+          <div class="form-group">
+           <label>Notes</label>
+           <textarea name="notes"></textarea>
+        </div>
 
-        <button class="reserve-btn">Reserve Now</button>
+        <button type="submit" class="reserve-btn">Reserve Now</button>
 
+     </form>
+
+        <hr/>
+     
         <footer>
             @ 2025 my restaurant fresh & Delicious every day
         </footer>
     </section>
+
+    <script src="{{ url_for('static', filename='js/reservation.js') }}"></script>
 </body>
 </html>

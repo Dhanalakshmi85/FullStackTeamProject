@@ -8,10 +8,12 @@
 
 
 <!-- Checkout button -->
-<button id="checkout-btn" class="btn btn-success">Proceed to Checkout</button>
+<button id="checkout-btn" class="btn btn-success" onclick="placeOrder()">Place Order</button>
 
 <a href="/menu" class="btn btn-primary">Continue Shopping</a>
 
 <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/cartCount.js') }}"></script>
 <script src="{{ url_for('static', filename='js/menucart.js') }}"></script>
+
+

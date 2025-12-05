@@ -30,6 +30,44 @@ function loadCart() {
     document.getElementById("cart-total").innerText = total.toFixed(2);
 }
 
+
+async function placeOrder() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    try {
+        const response = await fetch("/place-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart: cart })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Order placed successfully!");
+
+            // clear cart
+            localStorage.removeItem("cart");
+
+            // redirect if you want
+            window.location.href = "/menu";  
+        } else {
+            alert("Failed to place order.");
+        }
+
+    } catch (error) {
+        console.error("Order Error:", error);
+        alert("Something went wrong while placing the order.");
+    }
+}
+
+
+
 // Update quantity for a cart item
 function updateQty(name, amt) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -49,17 +87,8 @@ function updateQty(name, amt) {
 }
 
 
-document.getElementById("checkout-btn").addEventListener("click", () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if(cart.length === 0){
-        alert("Your cart is empty!");
-        return;
-    }
+document.getElementById("checkout-btn").addEventListener("click", placeOrder);
 
-    // Here you can redirect to a checkout page or payment flow
-    alert("Proceeding to checkout...\nTotal: €" + cart.reduce((sum, item) => sum + item.price * item.qty, 0).toFixed(2));
-    // window.location.href = "/checkout"; // example redirect
-});
 
 // Initial load
 window.addEventListener("load", loadCart);
