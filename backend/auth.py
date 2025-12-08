@@ -89,13 +89,15 @@ def login():
         session["email"] = user["email"]
         session["role"] = user["role"]
         session["user_id"] = str(user["_id"])
+
+        session["username"] = user.get("username")
         print("DEBUG: session:", dict(session))
 
         # print("DEBUG: check_password_hash result:", check_password_hash(user["password"], password))
         # Redirect based on role
         if user["role"].lower() == "admin":
             print("DEBUG: redirecting to admin dashboard")
-            return redirect("/admin/dashboard")  # or url_for('admin_bp.dashboard') if defined
+            return redirect(url_for("admin_bp.admin_dashboard"))  # or url_for('admin_bp.dashboard') if defined
         else:
             print("DEBUG: redirecting to customer home")
             return redirect(url_for("main.home"))  # safe redirect to home page
@@ -104,11 +106,11 @@ def login():
     return render_template("login.html")
 
 
-# # LOGOUT
-# @auth.route("/logout")
-# def logout():
-#     session.clear()
-#     return redirect("/login")
+# LOGOUT
+@auth.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 # FORCE ADMIN — FOR TESTING WITHOUT LOGIN PAGE

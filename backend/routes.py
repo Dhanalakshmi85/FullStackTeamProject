@@ -1,19 +1,16 @@
 from flask import Blueprint, render_template, request, jsonify, session
 from datetime import datetime
-import backend.db as db_module
+from bson.objectid import ObjectId
+from backend.db import get_db
 from backend.models import create_reservation
 
 main = Blueprint("main", __name__)
 
-@main.route("/", methods=["GET"])
+# ------------------- Static Pages -------------------
 
+@main.route("/", methods=["GET"])
 def home():
     return render_template("home.html", title="Home Page")
-
-
-@main.route("/menu", methods=["GET"])
-def menu():
-    return render_template("menu.html", title="Menu Page")
 
 @main.route("/contact", methods=["GET"])
 def contact():
@@ -23,19 +20,35 @@ def contact():
 def cart():
     return render_template("cart.html")   
 
-# @main.route("/login", methods=["GET"])
-# def login_page():
-#     return render_template("login.html", title="Login Page")   
-
-# @main.route('/reservation')
-# def reservation():
-#     return render_template('reservation.html')
-
-@main.route('/signup')
+@main.route("/signup")
 def signup():
-    return render_template('signup.html')    
+    return render_template("signup.html")    
 
-@main.route("/place-order", methods=["GET","POST"])
+# ------------------- Menu Route -------------------
+
+@main.route("/menu/")
+def menu():
+    db = get_db()  # get the initialized database
+    menu_collection = db["menu"]
+
+    north_indian_items = list(menu_collection.find({"category": "north_indian"}))
+    south_indian_items = list(menu_collection.find({"category": "south_indian"}))
+    sri_lankan_items = list(menu_collection.find({"category": "sri_lankan"}))
+
+    # Convert ObjectId to string for templates
+    for item in north_indian_items + south_indian_items + sri_lankan_items:
+        item["_id"] = str(item["_id"])
+
+    return render_template(
+        "menu.html",
+        north_indian_items=north_indian_items,
+        south_indian_items=south_indian_items,
+        sri_lankan_items=sri_lankan_items
+    )
+
+# ------------------- Place Order -------------------
+
+@main.route("/place-order", methods=["POST"])
 def place_order():
     data = request.get_json()
     cart = data.get("cart", [])
@@ -43,17 +56,21 @@ def place_order():
     if not cart:
         return jsonify({"success": False, "message": "Cart empty"})
 
-    db = db_module.get_db()
+    db = get_db()  # get the database inside the route
 
-    items = [
-        {"name": c["name"], "qty": c["qty"], "price": c["price"]}
-        for c in cart
-    ]
-
+    items = [{"name": c["name"], "qty": c["qty"], "price": c["price"]} for c in cart]
     total = sum(c["price"] * c["qty"] for c in cart)
 
+    user_id = session.get("user_id")
+    customer_name = "Guest"
+
+    if user_id:
+        user = db["users"].find_one({"_id": ObjectId(user_id)})
+        if user:
+            customer_name = user.get("username") or user.get("name") or "Guest"
+
     order_doc = {
-        "customer_name": session.get("username", "Guest"),
+        "customer_name": session.get("username", customer_name),
         "items": items,
         "total": total,
         "status": "Pending",
@@ -64,6 +81,7 @@ def place_order():
 
     return jsonify({"success": True})
 
+# ------------------- Reservation -------------------
 
 @main.route("/reservation", methods=["GET"])
 def reservation_page():
@@ -76,7 +94,6 @@ def create_reservation_route():
         if not data:
             return jsonify({"success": False, "message": "No data received"}), 400
 
-        # Extract fields
         name = data.get("name")
         email = data.get("email")
         phone = data.get("phone")
@@ -85,23 +102,19 @@ def create_reservation_route():
         time = data.get("time")
         notes = data.get("notes", "")
 
-        # Validate required fields
         if not all([name, email, phone, party_size_str, date_str, time]):
             return jsonify({"success": False, "message": "Missing required fields"}), 400
 
-        # Convert party_size to int
         try:
             party_size = int(party_size_str)
         except ValueError:
             return jsonify({"success": False, "message": "Party size must be a number"}), 400
 
-        # Convert date string to datetime.date
         try:
             date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
         except ValueError:
             return jsonify({"success": False, "message": "Invalid date format"}), 400
 
-        # Insert into MongoDB
         result = create_reservation(name, email, phone, party_size, date_obj, time, notes)
 
         return jsonify({"success": True, "message": "Reservation created", "id": str(result.inserted_id)})

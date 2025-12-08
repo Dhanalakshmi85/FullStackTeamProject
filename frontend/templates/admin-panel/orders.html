@@ -50,26 +50,30 @@ ADMINPANEL
             </tr>
         </thead>
         <tbody>
-            {% for order in orders %}
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.customer_name }}</td>
-                <td>{{ order.items }}</td>
-                <td>${{ order.total }}</td>
-                <td>
-                    {% if order.status == 'Pending' %}
-                        <span class="badge bg-warning text-dark">{{ order.status }}</span>
-                    {% elif order.status == 'Completed' %}
-                        <span class="badge bg-success">{{ order.status }}</span>
-                    {% elif order.status == 'Cancelled' %}
-                        <span class="badge bg-danger">{{ order.status }}</span>
-                    {% else %}
-                        <span class="badge bg-secondary">{{ order.status }}</span>
-                    {% endif %}
-                </td>
-                <td>{{ order.time }}</td>
-            </tr>
+           {% for order in orders %}
+<tr>
+    <td>{{ order["_id"] }}</td>
+    <td>{{ order["customer_name"] }}</td>
+    <td>
+        <ul>
+            {% for item in order["items"] %}
+                <li>{{ item["name"] }} x {{ item["qty"] }} (€{{ "%.2f"|format(item["price"]) }})</li>
             {% endfor %}
+        </ul>
+    </td>
+    <td>${{ "%.2f"|format(order["total"]) }}</td>
+    <td>
+        <form action="{{ url_for('admin_bp.update_order_status', order_id=order._id) }}" method="POST">
+        <select name="status" onchange="this.form.submit()">
+            <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
+            <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+    </form>
+    </td>
+    <td>{{ order["time"] }}</td>
+</tr>
+{% endfor %}
         </tbody>
     </table>
 </div>
