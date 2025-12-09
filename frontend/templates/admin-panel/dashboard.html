@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #ffe6f2;
+        font-family: Arial, sans-serif;
+    }
+    .card {
+        background-color: #ffb3d9;
+        border-radius: 12px;
+        padding: 20px;
+        color: #4a004e;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .table-pink {
+        background-color: #ffd6ea;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 30px;
+    }
+    .table-pink thead {
+        background-color: #ff99cc;
+        color: #4a004e;
+    }
+    .table-pink td, .table-pink th {
+        padding: 15px;
+        text-align: center;
+    }
+    .badge {
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+</style>
+
+<h2 class="text-center mb-4" style="color:#4a004e;">Dashboard</h2>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <h4>New Orders</h4>
+            <p>{{ orders }} Total</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <h4>Total Menu Items</h4>
+            <p>{{ menu }} Items</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <h4>Reservations</h4>
+            <p>{{ reservations }} Upcoming</p>
+        </div>
+    </div>
+</div>
+
+<div class="table-pink shadow-sm rounded">
+    <h3 class="text-center my-3" style="color:#4a004e;">Recent Orders</h3>
+    <table class="table table-striped table-hover" style="border-collapse: separate; border-spacing: 0 10px;">
+        <thead>
+            <tr style="background: white; border-radius: 12px;">
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+   <tbody>
+    {% for order in recent_orders %}
+     <tr>
+        <td>{{ order["_id"] }}</td>
+        <td>{{ order["customer_name"] }}</td>
+        <td>
+            {% for item in order["items"] %}
+                {{ item.name }} ({{ item.qty }})<br>
+            {% endfor %}
+        </td>
+        <td>${{ order["total"] }}</td>
+        <td>{{ order["status"] }}</td>
+        <td>{{ order["time"] }}</td>
+       </tr>
+     {% endfor %}
+     </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+

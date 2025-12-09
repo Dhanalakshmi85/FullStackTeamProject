@@ -1,0 +1,81 @@
+ADMINPANEL
+{% extends "layout.html" %}
+
+{% block head %}
+<style>
+.orders-container {
+    background-color: #fff0f5;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    width: 95%;
+    max-width: 1000px;
+}
+
+.table-orders thead {
+    background-color: #ff99cc;
+    color: #4a004e;
+}
+
+.table-orders tbody tr {
+    background-color: #ffd6ea;
+}
+
+.table-orders td, .table-orders th {
+    padding: 15px;
+    text-align: center;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="orders-container">
+    <h2 style="color:#4a004e; margin-bottom: 20px;">Orders</h2>
+
+    <table class="table table-orders table-striped table-hover rounded shadow-sm" style="border-collapse: separate; border-spacing: 0 10px;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for order in orders %}
+<tr>
+    <td>{{ order["_id"] }}</td>
+    <td>{{ order["customer_name"] }}</td>
+    <td>
+        <ul>
+            {% for item in order["items"] %}
+                <li>{{ item["name"] }} x {{ item["qty"] }} (€{{ "%.2f"|format(item["price"]) }})</li>
+            {% endfor %}
+        </ul>
+    </td>
+    <td>${{ "%.2f"|format(order["total"]) }}</td>
+    <td>
+        <form action="{{ url_for('admin_bp.update_order_status', order_id=order._id) }}" method="POST">
+        <select name="status" onchange="this.form.submit()">
+            <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
+            <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+    </form>
+    </td>
+    <td>{{ order["time"] }}</td>
+</tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

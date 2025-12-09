@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
 </head>
 <body>
+
+   ✅ Added Navbar 
+  <nav class="navbar">
+      <div class="logo">My Restaurant</div>
+      <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <a href="/cart" class="cart-link">
+          🛒 <span id="cart-count">0</span></a>
+      </ul>
+  </nav>
+   ✅ End Navbar
 
   <header id="top">
     <h1>Choose Your Food</h1>
@@ -18,27 +32,65 @@
     </div>
   </header>
 
- 
+  <!-- 🌶️ North Indian Menu -->
   <section id="north" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/palak.jpeg') }}" alt="Palak Paneer">
-          
+          <img src="images/palak.jpeg" alt="Palak Paneer">
           <h3>Palak Paneer - €10</h3>
           <p>Fresh spinach cooked with soft cottage cheese and aromatic spices.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('palak-paneer', -1)">-</button>
+            <span id="qty-palak-paneer">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('palak-paneer', 1)">+</button>
+          </div>
+
+
+        <button class="btn btn-primary add-to-cart"
+           onclick="addToCart('palak-paneer', 10)">
+           Add to Cart
+         </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/gravy-paneer.jpeg') }}" alt="Gravy Paneer">
           <h3>Gravy Paneer - €15</h3>
           <p>Paneer cubes simmered in a rich, buttery tomato-based gravy.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('gravy-paneer', -1)">-</button>
+            <span id="qty-gravy-paneer">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('gravy-paneer', 1)">+</button>
+          </div>
+          
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('gravy-paneer', 15)">
+            Add to Cart
+          </button>
+ 
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/dal-makhani.jpeg') }}" alt="Dal Makhani">
           <h3>Dal Makhani - €10</h3>
           <p>Classic black lentil curry cooked overnight with butter and cream.</p>
+
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('dal-makhani', -1)">-</button>
+            <span id="qty-dal-makhani">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('dal-makhani', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('dal-makhani', 10)">
+            Add to Cart
+          </button>
+
+         
         </div>
       </div>
 
@@ -46,31 +98,81 @@
         <h2>North Indian Menu</h2>
         <img src="{{ url_for('static', filename='img/combo.jpeg') }}" alt="Combo Plate" class="main-dish">
         <p>Special North Indian Combo Plate - €19.50</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('main-combo', -1)">-</button>
+            <span id="qty-main-combo">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('main-combo', 1)">+</button>
+          </div>
+
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('main-combo', 19.50)">
+            Add to Cart
+          </button>
+
       </div>
 
       <div class="menu-right">
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/gravy-paneer.jpeg') }}" alt="Paratha">
+          <img src="images/gravy-paneer.jpeg" alt="Paratha">
           <h3>Special Paratha - €8</h3>
           <p>Soft, flaky Indian bread stuffed with spiced potatoes or paneer.</p>
+
+         <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('combo', -1)">-</button>
+            <span id="qty-combo">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('combo', 1)">+</button>
+          </div>
+
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('combo', 8)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/chole.jpeg') }}" alt="Chole Chana">
           <h3>Chole Chana - €8</h3>
           <p>Spicy chickpeas cooked with onion, tomato, and garam masala.</p>
+
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('chole-chana', -1)">-</button>
+            <span id="qty-chole-chana">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('chole-chana', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('chole-chana', 8)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/lunch.jpeg') }}" alt="Lunch Plate">
           <h3>Lunch Plate - €17.50</h3>
           <p>Full thali with curry, rice, roti, salad, and dessert.</p>
+ 
+            <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('lunch-plate', -1)">-</button>
+            <span id="qty-lunch-plate">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('lunch-plate', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate', 17.50)">
+            Add to Cart
+          </button>
+
         </div>
       </div>
     </div>
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
+  <!-- 🌾 South Indian Menu -->
   <section id="south" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
@@ -78,50 +180,137 @@
           <img src="{{ url_for('static', filename='img/dosa.jpeg') }}" alt="Dosa">
           <h3>Dosa - €10</h3>
           <p>Thin, crispy rice crepe served with sambar and coconut chutney.</p>
+           
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('dosa', -1)">-</button>
+            <span id="qty-dosa">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('dosa', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('dosa', 10)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/idli.jpeg') }}" alt="Idli">
+          <img src="images/idli.jpeg" alt="Idli">
           <h3>Idli Sambar - €8</h3>
           <p>Soft steamed rice cakes with flavorful lentil sambar.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('idli', -1)">-</button>
+            <span id="qty-idli">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('idli', 1)">+</button>
+          </div>
+
+
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('idli', 8)">
+            Add to Cart
+          </button>
+
+
         </div>
 
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/vada.jpg') }}" alt="Vada">
+          <img src="images/vada.jpg" alt="Vada">
           <h3>Medu Vada - €15</h3>
           <p>Crispy lentil donuts with spicy chutney and tangy sambar.</p>
+
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('vada', -1)">-</button>
+            <span id="qty-vada">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('vada', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('vada', 15)">
+            Add to Cart
+          </button>
+
         </div>
       </div>
 
-      <div class="menu-center">
+      <div class="menu-item">
         <h2>South Indian Menu</h2>
-        <img src="{{ url_for('static', filename='img/uthappam.jpg') }}" alt="Uthappam" class="main-dish">
+        <img src="images/uthappam.jpg" alt="Uthappam" class="main-dish">
         <p>Special South Indian Combo Plate - €19.50</p>
+
+        <div class="qty-buttons">
+           <button class="qty-btn" onclick="changeMenuQty('uthappam', -1)">-</button>
+           <span id="qty-uthappam">0</span>
+           <button class="qty-btn" onclick="changeMenuQty('uthappam', 1)">+</button>
+        </div>
+
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('uthappam', 19.50)">
+            Add to Cart
+          </button>
+
       </div>
 
       <div class="menu-right">
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/curd-rise.jpg') }}" alt="Curd Rice">
+          <img src="images/curd-rise.jpg" alt="Curd Rice">
           <h3>Curd Rice - €8</h3>
           <p>Cool, creamy rice mixed with yogurt and tempered spices.</p>
+ 
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('curd-rice', -1)">-</button>
+            <span id="qty-curd-rice">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('curd-rice', 1)">+</button>
+          </div>
+          
+          <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curd-rice', 8)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/curry.jpeg') }}" alt="Full Dish">
+          <img src="images/curry.jpeg" alt="Full Dish">
           <h3>Full Curry Meal - €10</h3>
           <p>Authentic rice meal served with spicy curry and papad.</p>
+          
+            <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('curry', -1)">-</button>
+            <span id="qty-curry">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('curry', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curry', 10)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
-          <img src="{{ url_for('static', filename='img/lunch2.jpeg') }}" alt="Lunch Plate">
+          <img src="images/lunch2.jpeg" alt="Lunch Plate">
           <h3>Lunch Plate - €17.50</h3>
           <p>Traditional meal with dosa, rice, chutney, and dessert.</p>
+
+             <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('lunch-plate2', -1)">-</button>
+            <span id="qty-lunch-plate2">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('lunch-plate2', 1)">+</button>
+          </div>
+          
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate2', 17.50)">
+            Add to Cart
+          </button>
+
         </div>
       </div>
     </div>
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
+  <!-- 🥥 Sri Lankan Menu -->
   <section id="sri" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
@@ -129,25 +318,74 @@
           <img src="{{ url_for('static', filename='img/green-bean.jpg') }}" alt="Green Bean">
           <h3>Green Bean Curry - €10</h3>
           <p>Fresh green beans cooked in coconut milk with mild spices.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('green-bean', -1)">-</button>
+            <span id="qty-green-bean">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('green-bean', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('green-bean', 10)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/curry.jpeg') }}" alt="Curry">
           <h3>Spicy Curry - €15</h3>
           <p>Traditional Sri Lankan curry rich with coconut and herbs.</p>
+         
+          <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('curry2', -1)">-</button>
+            <span id="qty-curry2">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('curry2', 1)">+</button>
+          </div>
+          
+          
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('curry2', 15)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/full-dish-sri.jpeg') }}" alt="Full Dish">
           <h3>Full Rice Dish - €10</h3>
           <p>Rice served with multiple curries and fried papadam.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('full-dish-sri', -1)">-</button>
+            <span id="qty-full-dish-sri">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('full-dish-sri', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('full-dish-sri', 10)">
+            Add to Cart
+          </button>
+
         </div>
       </div>
 
       <div class="menu-center">
         <h2>Sri Lankan Menu</h2>
-        <img src="{{ url_for('static', filename='img/combo-sri.jpeg') }}" alt="Combo Plate" class="main-dish">
+        <img src="images/combo-sri.jpeg" alt="Combo Plate" class="main-dish">
         <p>Special Sri Lankan Combo Plate - €19.50</p>
+        
+         <div class="qty-buttons">
+           <button class="qty-btn" onclick="changeMenuQty('combo-sri', -1)">-</button>
+           <span id="qty-combo-sri">0</span>
+           <button class="qty-btn" onclick="changeMenuQty('combo-sri', 1)">+</button>
+        </div>
+
+         <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('combo-sri', 19.50)">
+            Add to Cart
+          </button>
+
       </div>
 
       <div class="menu-right">
@@ -155,23 +393,180 @@
           <img src="{{ url_for('static', filename='img/egg-curry.jpg') }}" alt="Egg Curry">
           <h3>Egg Curry - €8</h3>
           <p>Boiled eggs simmered in spicy coconut curry sauce.</p>
+            
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('egg-curry', -1)">-</button>
+            <span id="qty-egg-curry">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('egg-curry', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('egg-curry', 8)">
+            Add to Cart
+          </button>
+
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/meat-rice.jpeg') }}" alt="Meat Rice">
           <h3>Meat Rice - €8</h3>
           <p>Steamed rice cooked with tender meat and local spices.</p>
+
+           <div class="qty-buttons">
+            <button class="qty-btn" onclick="changeMenuQty('meat-rice', -1)">-</button>
+            <span id="qty-meat-rice">0</span>
+            <button class="qty-btn" onclick="changeMenuQty('meat-rice', 1)">+</button>
+          </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('meat-rice', 8)">
+            Add to Cart
+          </button>
         </div>
 
         <div class="menu-item">
           <img src="{{ url_for('static', filename='img/lunch-sri.jpeg') }}" alt="Lunch Plate">
           <h3>Lunch Plate - €17.50</h3>
           <p>Rice, sambol, curry, and vegetables served in traditional style.</p>
+
+           <div class="qty-buttons">
+              <button class="qty-btn" onclick="changeMenuQty('lunch-plate2-sri', -1)">-</button>
+              <span id="qty-lunch-plate2-sri">0</span>
+              <button class="qty-btn" onclick="changeMenuQty('lunch-plate2-sri', 1)">+</button>
+            </div>
+
+           <button class="btn btn-primary add-to-cart"
+            onclick="addToCart('lunch-plate2-sri', 17.50)">
+            Add to Cart
+          </button>
+
         </div>
       </div>
     </div>
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
+  <script src="/static/js/menucart.js"></script>
+
+  <script src="/static/js/cart.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="/">My Restaurant</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/menu">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/cart">🛒 <span id="cart-count">0</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- North Indian Section -->
+    <h2 class="mb-3">North Indian</h2>
+    <div class="row mb-5">
+      {% for item in north_indian_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- South Indian Section -->
+    <h2 class="mb-3">South Indian</h2>
+    <div class="row mb-5">
+      {% for item in south_indian_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Sri Lankan Section -->
+    <h2 class="mb-3">Sri Lankan</h2>
+    <div class="row mb-5">
+      {% for item in sri_lankan_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script src="/static/js/menucart.js"></script>
+  <script src="/static/js/cart.js"></script>
 </body>
 </html>
+
+
+
