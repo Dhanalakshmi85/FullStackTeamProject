@@ -53,6 +53,34 @@ def delete_user(user_id):
     db["users"].delete_one({"_id": ObjectId(user_id)})
 
     return redirect("/admin/users")
+
+@admin_bp.route("/users/edit/<user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+    if not admin_required():
+        return redirect("/login")
+
+    db = get_db()
+    user = db["users"].find_one({"_id": ObjectId(user_id)})
+
+
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        role = request.form["role"]
+
+        db["users"].update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {
+                "username": username,
+                "email": email,
+                "role": role
+            }}
+        )
+
+    if not user:
+        return "User not found", 404
+
+    return render_template("admin-panel/edit_user.html", user=user)    
  
 
 # ------------- MENU MANAGEMENT -------------

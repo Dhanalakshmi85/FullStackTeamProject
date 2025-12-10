@@ -84,7 +84,7 @@ def place_order():
 # ------------------- Reservation -------------------
 
 @main.route("/reservation", methods=["GET"])
-def reservation_page():
+def reservation():
     return render_template("reservation.html")
 
 @main.route("/create-reservation", methods=["POST"])

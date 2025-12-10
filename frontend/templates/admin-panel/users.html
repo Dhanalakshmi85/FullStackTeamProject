@@ -45,6 +45,7 @@
       <th>#</th>
       <th>Name</th>
       <th>Email</th>
+      <th>Role</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -54,9 +55,10 @@
       <td>{{ loop.index }}</td> <!-- numeric ID -->
       <td>{{ user.username or user.name }}</td>
       <td>{{ user.email }}</td>
+      <td>{{ user.role  }}</td>
       <td class="action-buttons">
-        <a href="{{ url_for('admin_bp.edit_user', id=user._id) }}">Edit</a> |
-        <a href="{{ url_for('admin_bp.delete_user', id=user._id) }}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+        <a href="{{ url_for('admin_bp.edit_user', user_id=user._id) }}">Edit</a> |
+        <a href="{{ url_for('admin_bp.delete_user', user_id=user._id) }}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
       </td>
     </tr>
     {% endfor %}
