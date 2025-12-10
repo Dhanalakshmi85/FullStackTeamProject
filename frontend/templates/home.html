@@ -45,7 +45,7 @@
       offerings.</p>
     <div class="buttons">
       <a href="#" class="primary">View Today's Menu</a>
-      <a href="#" class="secondary">Find Us</a>
+      <a id="find-us-btn" class="secondary">Find Us</a>
     </div>
   </section>
 
@@ -71,19 +71,11 @@
    <script src="/frontend/static/js/cartCount.js"></script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-   
+  <script>
+    const findUsUrl = "{{ url_for('main.contact') }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/findus.js') }}"></script>
+  
 </body>
 
 </html>

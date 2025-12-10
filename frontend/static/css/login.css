@@ -12,6 +12,40 @@ body {
     align-items: center;
     background: #fff7ed;
 }
+/* ✅ NAVBAR (added at top) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #e91b4f;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #e91b4f;
+}
+/* ✅ END NAVBAR */
 
 .login-container {
     width: 850px;

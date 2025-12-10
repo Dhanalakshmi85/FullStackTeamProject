@@ -1,7 +1,32 @@
 html{
     scroll-behavior: smooth;
 } 
+/* Google Translate Styling */
+#google_translate_element {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+}
 
+.goog-te-gadget {
+  font-family: Arial, sans-serif !important;
+}
+
+.goog-te-gadget-simple {
+  background-color: #f8f9fa !important;
+  border: 1px solid #dee2e6 !important;
+  padding: 5px 10px !important;
+  border-radius: 4px !important;
+}
+
+.goog-te-gadget-simple .goog-te-combo {
+  background-color: white !important;
+  border: 1px solid #dee2e6 !important;
+  padding: 5px !important;
+  border-radius: 3px !important;
+  cursor: pointer !important;
+}
 /* ✅ NAVBAR (added at top) */
 .navbar {
     display: flex;
