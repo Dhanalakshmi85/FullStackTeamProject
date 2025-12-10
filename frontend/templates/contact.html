@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ✅ NAVBAR ADDED -->
+  <!-- NAVBAR -->
   <nav class="navbar">
       <div class="logo">My Restaurant</div>
       <ul class="nav-links">
@@ -16,11 +16,9 @@
           <li><a href="/menu">Menu</a></li>
           <li><a href="/login">Login</a></li>
           <li><a href="/contact">Contact</a></li>
-          <a href="/cart" class="cart-link">
-         🛒 <span id="cart-count">0</span></a>
+          <a href="/cart" class="cart-link"> 🛒 <span id="cart-count">0</span></a>
       </ul>
   </nav>
-  <!-- END NAVBAR -->
 
   <header>
     <h1>Contact Us</h1>
@@ -28,15 +26,13 @@
   </header>
 
   <main class="contact-container">
-    
-    <!-- Contact Info Section -->
+    <!-- Contact Info -->
     <section class="contact-info">
       <h2>Get in Touch</h2>
       <p><strong>Address:</strong> 123 Main Street, Helsinki</p>
       <p><strong>Phone:</strong> +358 123 4567</p>
       <p><strong>Email:</strong> info@restaurant.fi</p>
 
-      <!-- ✅ GOOGLE MAP EMBED -->
       <h3>Find Us on the Map</h3>
       <div class="map-container">
         <iframe 
@@ -46,36 +42,66 @@
           style="border:0;" 
           allowfullscreen=""
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <!-- ✅ END MAP -->
     </section>
 
-    <!-- Contact Form Section -->
-    <section class="contact-form">
-      <h2>Send a Message</h2>
-      <form action="#" method="post">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required />
-
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required />
-
-        <label for="message">Your Message</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
-
+    
   </main>
+
+  <!-- ⭐ REVIEWS SECTION -->
+  <section class="reviews-section">
+    <h2>Customer Reviews</h2>
+
+    <div class="reviews-list">
+      <div class="review">
+        <h3>John Doe</h3>
+        <p class="rating">★★★★★</p>
+        <p>Great food and very friendly staff. Loved it!</p>
+      </div>
+
+      <div class="review">
+        <h3>Sarah K.</h3>
+        <p class="rating">★★★★☆</p>
+        <p>The ambiance is lovely. Would definitely visit again!</p>
+      </div>
+    </div>
+
+    <div class="add-review">
+      <h3>Add Your Review</h3>
+      <form action="#" method="post">
+        <label for="review-name">Full Name</label>
+        <input type="text" id="review-name" name="review-name" required>
+
+        <label for="review-rating">Rating</label>
+        <select id="review-rating" name="review-rating" required>
+          <option value="5">★★★★★ - 5 Stars</option>
+          <option value="4">★★★★☆ - 4 Stars</option>
+          <option value="3">★★★☆☆ - 3 Stars</option>
+          <option value="2">★★☆☆☆ - 2 Stars</option>
+          <option value="1">★☆☆☆☆ - 1 Star</option>
+        </select>
+        
+
+        <label for="review-message">Your Review</label>
+    
+        <textarea id="review-message" name="review-message" rows="4" required></textarea>
+        </div>
+
+        <div class ="check">
+        <button type="submit" class="button">Submit Review</button>
+        </div>
+      
+        
+      </form>
+    
+  </section>
+
+  <script src="/frontend/static/js/cartCount.js"></script>
 
   <footer>
     <p>© 2025 Restaurant Website</p>
   </footer>
-
-  <script src="/frontend/static/js/cartCount.js"></script>
 
 </body>
 </html>
