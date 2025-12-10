@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 
-today_menu = Blueprint("today_menu", __name__)
+today_menu = Blueprint("today_menu", __name__, url_prefix="/today_menu")
 
 TODAY_SPECIAL = [
     {
