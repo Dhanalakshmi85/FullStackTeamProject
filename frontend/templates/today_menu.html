@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div style="text-align:center; padding:40px; background:#ffe6ea;">
+    <h1 style="color:#d6004c; font-size:40px;">Today's Special Menu</h1>
+    <p style="font-size:18px; color:#555;">Available only today!</p>
+</div>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; padding:40px;">
+    {% for item in items %}
+        <div style="
+            width:260px; 
+            margin:15px; 
+            background:#fff; 
+            border-radius:12px;
+            box-shadow:0 4px 8px rgba(0,0,0,0.1); 
+            padding:20px;"
+        >
+
+            <img src="{{ url_for('static', filename=item.image) }}"
+                 style="width:100%; border-radius:10px; margin-bottom:10px;">
+
+            <h3 style="color:#d6004c;">{{ item.name }} - €{{ item.price }}</h3>
+            <p style="color:#555;">{{ item.desc }}</p>
+
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

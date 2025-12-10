@@ -12,23 +12,31 @@
   <header>
     <h1>My Restaurant</h1>
     <nav>
-      <a href="#">Home</a>
+      <a href="{{ url_for('main.home') }}">Home</a>
       <a href="{{ url_for('main.menu') }}">Menu</a>
       <a href="{{ url_for('auth.login') }}">Login</a>
       <a href="{{ url_for('main.contact') }}">Contact</a>
       <a href="{{ url_for('main.reservation') }}">Reservation</a>
+
       <a href="/cart" class="cart-link">
-      🛒 <span id="cart-count">0</span></a>
-      
+        🛒 <span id="cart-count">0</span>
+      </a>
     </nav>
   </header>
 
   <section class="hero">
     <h2>Welcome to My Restaurant</h2>
-    <p>Delicious, fresh meals prepared daily! Check out our menu, find us easily, or log in to manage the daily
-      offerings.</p>
+    <p>
+      Delicious, fresh meals prepared daily! Check out our menu, find us easily,
+      or log in to manage the daily offerings.
+    </p>
+
     <div class="buttons">
-      <a href="#" class="primary">View Today's Menu</a>
+      <!-- ⭐ FIXED BUTTON: Now correct Today Menu URL -->
+      <a href="{{ url_for('today_menu.today_menu_page') }}" class="primary">
+        View Today's Menu
+      </a>
+
       <a href="#" class="secondary">Find Us</a>
     </div>
   </section>
@@ -38,10 +46,12 @@
       <h3>Fresh Ingredients</h3>
       <p>We use locally sourced, high-quality ingredients for every dish we prepare.</p>
     </div>
+
     <div class="card">
       <h3>Special Diets Welcome</h3>
       <p>We offer vegan, gluten-free, and allergy-friendly options every day.</p>
     </div>
+
     <div class="card">
       <h3>Affordable Lunch</h3>
       <p>Enjoy a fulfilling meal without breaking the bank — starting at just 9.90€!</p>
@@ -52,22 +62,7 @@
     © 2025 My Restaurant — Fresh & Delicious Every Day
   </footer>
 
-   <script src="/frontend/static/js/cartCount.js"></script>
+  <script src="/frontend/static/js/cartCount.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
 </body>
-
 </html>
