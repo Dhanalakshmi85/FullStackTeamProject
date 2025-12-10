@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ✅ Added Navbar -->
+   ✅ Added Navbar 
   <nav class="navbar">
       <div class="logo">My Restaurant</div>
       <ul class="nav-links">
@@ -20,7 +20,7 @@
           🛒 <span id="cart-count">0</span></a>
       </ul>
   </nav>
-  <!-- ✅ End Navbar -->
+   ✅ End Navbar
 
   <header id="top">
     <h1>Choose Your Food</h1>
@@ -32,7 +32,7 @@
     </div>
   </header>
 
-  <!-- 🌶️ North Indian Menu -->
+   🌶️ North Indian Menu 
   <section id="north" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
@@ -172,7 +172,7 @@
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
-  <!-- 🌾 South Indian Menu -->
+   🌾 South Indian Menu 
   <section id="south" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
@@ -310,7 +310,7 @@
     <a href="#top" class="back">⬆ Back to Main Menu</a>
   </section>
 
-  <!-- 🥥 Sri Lankan Menu -->
+  🥥 Sri Lankan Menu 
   <section id="sri" class="menu-section">
     <div class="menu-container">
       <div class="menu-left">
@@ -450,4 +450,123 @@
 
   <script src="/static/js/cart.js"></script>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="/">My Restaurant</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/menu">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/cart">🛒 <span id="cart-count">0</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- North Indian Section -->
+    <h2 class="mb-3">North Indian</h2>
+    <div class="row mb-5">
+      {% for item in north_indian_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- South Indian Section -->
+    <h2 class="mb-3">South Indian</h2>
+    <div class="row mb-5">
+      {% for item in south_indian_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Sri Lankan Section -->
+    <h2 class="mb-3">Sri Lankan</h2>
+    <div class="row mb-5">
+      {% for item in sri_lankan_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" 
+               src="{{ url_for('static', filename='img/' ~ (item.image or 'default.jpg')) }}" 
+               alt="{{ item.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="fw-bold">€{{ item.price }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', -1)">-</button>
+                <span id="qty-{{ item._id }}" class="mx-2">0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="changeMenuQty('{{ item._id }}', 1)">+</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addToCart('{{ item._id }}', '{{ item.price }}')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script src="/static/js/menucart.js"></script>
+  <script src="/static/js/cart.js"></script>
+</body>
 </html>
+
+
+

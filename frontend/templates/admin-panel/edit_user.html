@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<style>
+.edit-user-container {
+    background-color: #fff0f5;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    width: 90%;
+    max-width: 500px;
+}
+
+.edit-user-container h2 {
+    color: #4a004e;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.edit-user-container form .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-user-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4a004e;
+}
+
+.edit-user-container input, 
+.edit-user-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.edit-user-container button {
+    background-color: #ff99cc;
+    color: #4a004e;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.edit-user-container button:hover {
+    background-color: #ff66aa;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-user-container">
+    <h2>Edit User</h2>
+    <form action="{{ url_for('admin_bp.edit_user', id=user._id) }}" method="POST">
+        <div class="form-group">
+            <label for="username">Name</label>
+            <input type="text" name="username" id="username" value="{{ user.username }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select name="role" id="role" required>
+                <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+            </select>
+        </div>
+
+        <button type="submit">Update User</button>
+    </form>
+</div>
+{% endblock %}

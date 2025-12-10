@@ -17,6 +17,8 @@ function changeMenuQty(itemName, amt) {
 
 
 function addToCart(itemName, itemPrice) {
+
+    itemPrice = parseFloat(itemPrice);
     const quantity = menuQt[itemName] || 0;
     
     if (quantity === 0) {

@@ -97,6 +97,10 @@ def get_user_by_email(email):
 def get_user_by_id(user_id):
     return db_module.db["users"].find_one({"_id": ObjectId(user_id)})
 
+def get_all_users():
+    """Return a list of all users"""
+    return list(db_module.db["users"].find())    
+
 
 # ------------ MENU COLLECTION ------------
 def create_menu_item(name, description, price, category, image=None, available=True):
@@ -121,15 +125,24 @@ def get_menu_item(menu_id):
 
 # ------------ ORDERS COLLECTION ------------
 def create_order(user_id, items, total_price):
-    order = {
-        "user_id": ObjectId(user_id),
-        "items": items,
-        "total_price": total_price,
-        "status": "pending",
-        "created_at": datetime.utcnow()
-    }
-    return db_module.db["orders"].insert_one(order)
+    db = db_module.get_db()
 
+    if user_id:
+        user = db["users"].find_one({"_id": ObjectId(user_id)})
+        customer_name = user.get("username", "Guest")
+    else:
+        customer_name = "Guest"
+
+    order = {
+        "user_id": ObjectId(user_id) if user_id else None,
+        "customer_name": customer_name,
+        "items": items,
+        "total": total_price,
+        "status": "Pending",
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    return db["orders"].insert_one(order)
 
 def get_user_orders(user_id):
     return list(db_module.db["orders"].find({"user_id": ObjectId(user_id)}))
@@ -149,12 +162,15 @@ def add_review(user_id, menu_id, rating, comment):
 
 # ------------ RESERVATIONS COLLECTION ------------
 def create_reservation(name, email, phone, party_size, date, time, notes=""):
+
+    date_dt = datetime.combine(date, datetime.min.time())
+
     reservation = {
         "name": name,
         "email": email,
         "phone": phone,
         "party_size": int(party_size),
-        "date": date,
+        "date": date_dt,       # datetime.date object
         "time": time,
         "notes": notes,
         "created_at": datetime.utcnow()

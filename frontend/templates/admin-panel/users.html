@@ -24,6 +24,15 @@
     padding: 15px;
     text-align: center;
 }
+.action-buttons a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #4a004e;
+    font-weight: bold;
+}
+.action-buttons a:hover {
+    color: #ff3399;
+}
 </style>
 {% endblock %}
 
@@ -33,17 +42,22 @@
 <table class="table table-users">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>#</th>
       <th>Name</th>
       <th>Email</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     {% for user in users %}
     <tr>
-      <td>{{ user.id }}</td>
-      <td>{{ user.name }}</td>
+      <td>{{ loop.index }}</td> <!-- numeric ID -->
+      <td>{{ user.username or user.name }}</td>
       <td>{{ user.email }}</td>
+      <td class="action-buttons">
+        <a href="{{ url_for('admin_bp.edit_user', id=user._id) }}">Edit</a> |
+        <a href="{{ url_for('admin_bp.delete_user', id=user._id) }}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
