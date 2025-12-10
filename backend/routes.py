@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from backend.db import get_db
 from backend.models import create_reservation
 
+# Create Blueprint
 main = Blueprint("main", __name__)
 
 # ------------------- Static Pages -------------------
@@ -16,9 +17,9 @@ def home():
 def contact():
     return render_template("contact.html", title="Contact Page")
 
-@main.route("/cart", methods=["GET"])
+@main.route("/cart")
 def cart():
-    return render_template("cart.html")   
+    return render_template("cart.html", title="Cart")
 
 @main.route("/signup")
 def signup():
