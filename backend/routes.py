@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
 from datetime import datetime
 from bson.objectid import ObjectId
 from backend.db import get_db
@@ -23,7 +23,12 @@ def cart():
 
 @main.route("/signup")
 def signup():
-    return render_template("signup.html")    
+    return render_template("signup.html")  
+
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    # login logic
+    return render_template('login.html')      
 
 # ------------------- Menu Route -------------------
 
@@ -51,35 +56,49 @@ def menu():
 
 @main.route("/place-order", methods=["POST"])
 def place_order():
-    data = request.get_json()
+    data = request.get_json() or {}
     cart = data.get("cart", [])
 
     if not cart:
         return jsonify({"success": False, "message": "Cart empty"})
 
-    db = get_db()  # get the database inside the route
+    # normalize and validate each item
+    normalized = []
+    for c in cart:
+        try:
+            price = float(c.get("price", 0) or 0)
+            qty = int(c.get("qty", 0) or 0)
+        except (ValueError, TypeError):
+            continue
+        if qty <= 0:
+            continue
+        normalized.append({"name": c.get("name", "Unknown"), "price": price, "qty": qty})
 
-    items = [{"name": c["name"], "qty": c["qty"], "price": c["price"]} for c in cart]
-    total = sum(c["price"] * c["qty"] for c in cart)
+    if not normalized:
+        return jsonify({"success": False, "message": "No valid items in cart"})
 
+    total = sum(item["price"] * item["qty"] for item in normalized)
+
+    db = get_db()
     user_id = session.get("user_id")
     customer_name = "Guest"
-
     if user_id:
-        user = db["users"].find_one({"_id": ObjectId(user_id)})
-        if user:
-            customer_name = user.get("username") or user.get("name") or "Guest"
+        try:
+            user = db["users"].find_one({"_id": ObjectId(user_id)})
+            if user:
+                customer_name = user.get("username") or user.get("name") or customer_name
+        except Exception:
+            pass
 
     order_doc = {
         "customer_name": session.get("username", customer_name),
-        "items": items,
+        "items": normalized,
         "total": total,
         "status": "Pending",
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
     db["orders"].insert_one(order_doc)
-
     return jsonify({"success": True})
 
 # ------------------- Reservation -------------------
@@ -123,3 +142,26 @@ def create_reservation_route():
     except Exception as e:
         print("Error creating reservation:", e)
         return jsonify({"success": False, "message": str(e)}), 500
+
+
+@main.route("/add-review", methods=["POST"])
+def add_review():
+    db = get_db()
+    user_name = request.form.get("review-name")
+    rating = int(request.form.get("review-rating"))
+    comment = request.form.get("review-message")
+
+    db["reviews"].insert_one({
+        "user_id": user_name,
+        "comment": comment,
+        "rating": rating
+    })
+
+    return redirect(url_for("main.reviews_page"))  
+
+# Route to display all reviews on front-end
+@main.route("/reviews", methods=["GET"])
+def reviews_page():
+    db = get_db()
+    reviews = list(db["reviews"].find())
+    return render_template("contact.html", reviews=reviews)    

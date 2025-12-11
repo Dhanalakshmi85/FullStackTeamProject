@@ -8,6 +8,29 @@
     border-bottom: 1px solid #eee;
 }
 
+ nav a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+ header {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  } 
+
+ h1{
+    font-size: 2rem;
+    color: #e91b4f;
+
+ } 
+
 .logo {
     font-size: 28px;
     font-weight: bold;

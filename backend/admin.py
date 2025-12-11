@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, request
+from flask import Blueprint, render_template, session, redirect, request, url_for
 from bson.objectid import ObjectId
 from .models import (
     get_user_by_id, get_all_users, create_menu_item, get_all_menu,
@@ -8,6 +8,13 @@ from .models import (
 from .db import get_db
 
 admin_bp = Blueprint("admin_bp", __name__, url_prefix="/admin")
+
+
+UPLOAD_FOLDER = "frontend/static/uploads"  # or wherever you want to store images
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # ------------- Helper: Admin Access Only -------------
 def admin_required():
@@ -27,12 +34,17 @@ def admin_dashboard():
     total_menu_items = db["menu"].count_documents({})
     total_reviews = db["reviews"].count_documents({})
 
+    recent_orders = list(
+        db["orders"].find().sort("time", -1).limit(5)  # Adjust "time" field as needed
+    )
+
     return render_template(
         "admin-panel/dashboard.html",
         users=total_users,
         orders=total_orders,
         menu=total_menu_items,
-        reviews=total_reviews
+        reviews=total_reviews,
+        recent_orders=recent_orders
     )
 
 # ------------- USERS MANAGEMENT -------------
@@ -100,14 +112,24 @@ def add_menu_item_route():
     name = request.form["name"]
     description = request.form["description"]
     price = float(request.form["price"])
-    image_url = request.form.get("image_url", "")
+    category = request.form["category"]
 
-    create_menu_item(name, description, price, category="general", image=image_url)
+    # Grab the uploaded file
+    image_file = request.files.get("image_file")
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        image_file.save(filepath)
+        image_url = f"/static/uploads/{filename}"  # store this in DB
+    else:
+        image_url = ""  # default if no file uploaded
+
+    create_menu_item(name, description, price, category=category, image=image_url)
 
     return redirect("/admin/menu")
 
-@admin_bp.route("/menu/update/<menu_id>", methods=["POST"])
-def update_menu_item(menu_id):
+@admin_bp.route("/menu/edit/<menu_id>", methods=["GET", "POST"])
+def edit_menu_item(menu_id):
     if not admin_required():
         return redirect("/login")
 
@@ -117,17 +139,36 @@ def update_menu_item(menu_id):
     if not item:
         return "Menu item not found", 404
 
-    db["menu"].update_one(
-        {"_id": ObjectId(menu_id)},
-        {"$set": {
-            "name": request.form["name"],
-            "description": request.form["description"],
-            "price": float(request.form["price"]),
-            "image": request.form.get("image_url", "")
-        }}
-    )
+    if request.method == "POST":
+        name = request.form.get("name")
+        description = request.form.get("description")
+        price = float(request.form.get("price"))
+        category = request.form.get("category")
 
-    return redirect("/admin/menu")
+        image_file = request.files.get("image_file")
+        if image_file and allowed_file(image_file.filename):
+            filename = secure_filename(image_file.filename)
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
+            image_file.save(filepath)
+            image_url = f"/static/uploads/{filename}"
+        else:
+            image_url = item.get("image", "")
+
+        db["menu"].update_one(
+            {"_id": ObjectId(menu_id)},
+            {"$set": {
+                "name": name,
+                "description": description,
+                "price": price,
+                "category": category,
+                "image": image_url
+            }}
+        )
+
+        return redirect("/admin/menu")
+
+    return render_template("admin-panel/edit-menu-item.html", item=item)
+
 
 @admin_bp.route("/menu/delete/<menu_id>", methods=["POST"])
 def delete_menu_item(menu_id):
@@ -137,6 +178,8 @@ def delete_menu_item(menu_id):
     db = get_db()
     db["menu"].delete_one({"_id": ObjectId(menu_id)})
 
+
+
     return redirect("/admin/menu")
 
 # ------------- ORDERS MANAGEMENT -------------
@@ -145,7 +188,9 @@ def admin_orders():
     if not admin_required():
         return redirect("/login")
 
-    orders = list(get_db()["orders"].find())
+    orders = list(get_db()["orders"].find({
+        "status": {"$nin": ["Completed", "Cancelled"]}
+    }))
     return render_template("admin-panel/orders.html", orders=orders)
 
 
@@ -155,6 +200,7 @@ def update_order_status(order_id):
         return redirect("/login")
 
     new_status = request.form.get("status")
+    print("New status:", new_status)   # TEMPORARY DEBUG
 
     db = get_db()
     db["orders"].update_one(
@@ -165,150 +211,44 @@ def update_order_status(order_id):
     return redirect("/admin/orders")
 
 # ------------- REVIEWS MANAGEMENT -------------
-@admin_bp.route("/reviews")
+@admin_bp.route("/reviews", methods=["GET", "POST"])
 def admin_reviews():
     if not admin_required():
         return redirect("/login")
 
-    reviews = list(get_db()["reviews"].find())
+    db = get_db()
+
+    if request.method == "POST":
+        user_name = request.form.get("review-name")
+        rating = int(request.form.get("review-rating"))
+        comment = request.form.get("review-message")
+
+        # Save to MongoDB
+        db["reviews"].insert_one({
+            "user_id": user_name,
+            "comment": comment,
+            "rating": rating
+        })
+
+        # Redirect to refresh the page
+        return redirect("/admin/reviews")
+
+    # GET → display reviews
+    reviews = list(db["reviews"].find())
     return render_template("admin-panel/review.html", reviews=reviews)
 
+@admin_bp.route("/reviews/delete/<review_id>", methods=["POST"])
+def delete_review(review_id):
+    if not admin_required():
+        return redirect("/login")
+    db = get_db()
+    db["reviews"].delete_one({"_id": ObjectId(review_id)})
+    return redirect(url_for("admin_bp.admin_reviews"))
 
+# ------------- ADMIN LOGOUT -------------
+@admin_bp.route("/logout")
+def admin_logout():
+    session.clear()
+    return redirect(url_for("main.home")) 
 
-# from flask import Blueprint, render_template, request, jsonify, session
-# from datetime import datetime
-# from bson.objectid import ObjectId
-# from backend.db import get_db
-# from backend.models import create_reservation
-
-# main = Blueprint("main", __name__)
-
-# # ------------------- Static Pages -------------------
-
-# @main.route("/", methods=["GET"])
-# def home():
-#     return render_template("home.html", title="Home Page")
-
-
-# @main.route("/contact", methods=["GET"])
-# def contact():
-#     return render_template("contact.html", title="Contact Page")
-
-
-# @main.route("/cart", methods=["GET"])
-# def cart():
-#     return render_template("cart.html")   
-
-
-# @main.route("/signup")
-# def signup():
-#     return render_template("signup.html")    
-
-
-# # ------------------- Menu Route -------------------
-
-# @main.route("/menu/")
-# def menu():
-    
-#     db = get_db() 
-#     menu_collection = db["menu"]
-
-#     # Query items by category
-#     north_indian_items = list(menu_collection.find({"category": "north_indian"}))
-#     south_indian_items = list(menu_collection.find({"category": "south_indian"}))
-#     sri_lankan_items = list(menu_collection.find({"category": "sri_lankan"}))
-
-#     # Convert ObjectId to string
-#     for item in north_indian_items + south_indian_items + sri_lankan_items:
-#         item["_id"] = str(item["_id"])
-
-#     return render_template(
-#         "menu.html",
-#         north_indian_items=north_indian_items,
-#         south_indian_items=south_indian_items,
-#         sri_lankan_items=sri_lankan_items
-#     )
-
-
-# # ------------------- Place Order -------------------
-
-# @main.route("/place-order", methods=["GET","POST"])
-# def place_order():
-#     data = request.get_json()
-#     cart = data.get("cart", [])
-
-#     if not cart:
-#         return jsonify({"success": False, "message": "Cart empty"})
-
-#     db = get_db()
-#     items = [{"name": c["name"], "qty": c["qty"], "price": c["price"]} for c in cart]
-#     total = sum(c["price"] * c["qty"] for c in cart)
-
-#     user_id = session.get("user_id")
-#     customer_name = "Guest"
-
-#     if user_id:
-#         user = db["users"].find_one({"_id": ObjectId(user_id)})
-#         if user:
-#             customer_name = user.get("username") or user.get("name") or "Guest"
-
-#     order_doc = {
-#         "customer_name": session.get("username", customer_name),
-#         "items": items,
-#         "total": total,
-#         "status": "Pending",
-#         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#     }
-
-#     db["orders"].insert_one(order_doc)
-
-#     return jsonify({"success": True})
-
-
-# # ------------------- Reservation Pages -------------------
-
-# @main.route("/reservation", methods=["GET"])
-# def reservation_page():
-#     return render_template("reservation.html")
-
-
-# @main.route("/create-reservation", methods=["POST"])
-# def create_reservation_route():
-#     try:
-#         data = request.get_json()
-#         if not data:
-#             return jsonify({"success": False, "message": "No data received"}), 400
-
-#         # Extract fields
-#         name = data.get("name")
-#         email = data.get("email")
-#         phone = data.get("phone")
-#         party_size_str = data.get("party_size")
-#         date_str = data.get("date")
-#         time = data.get("time")
-#         notes = data.get("notes", "")
-
-#         # Validate required fields
-#         if not all([name, email, phone, party_size_str, date_str, time]):
-#             return jsonify({"success": False, "message": "Missing required fields"}), 400
-
-#         # Convert party_size to int
-#         try:
-#             party_size = int(party_size_str)
-#         except ValueError:
-#             return jsonify({"success": False, "message": "Party size must be a number"}), 400
-
-#         # Convert date string to datetime.date
-#         try:
-#             date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-#         except ValueError:
-#             return jsonify({"success": False, "message": "Invalid date format"}), 400
-
-#         # Insert into MongoDB using your model function
-#         result = create_reservation(name, email, phone, party_size, date_obj, time, notes)
-
-#         return jsonify({"success": True, "message": "Reservation created", "id": str(result.inserted_id)})
-
-#     except Exception as e:
-#         print("Error creating reservation:", e)
-#         return jsonify({"success": False, "message": str(e)}), 500
+ 

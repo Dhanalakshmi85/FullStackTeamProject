@@ -19,7 +19,7 @@ TODAY_SPECIAL = [
     {
         "name": "Full Rice Dish",
         "price": 10,
-        "image": "img/full-dish-sri.jpeg",
+        "image": "img/meat-rice.jpg",
         "desc": "Rice served with Sri Lankan curries."
     }
 ]

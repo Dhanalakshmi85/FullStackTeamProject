@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4" style="color:#4a004e;">Edit Menu Item</h2>
+
+<form action="/admin/menu/edit/{{ item._id }}" method="POST">
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ item.name }}" required>
+
+    <label class="form-label mt-2">Description</label>
+    <textarea class="form-control" name="description" required>{{ item.description }}</textarea>
+
+    <label class="form-label mt-2">Category</label>
+    <select class="form-select" name="category" required>
+        <option value="north_indian" {% if item.category == "north_indian" %}selected{% endif %}>North Indian</option>
+        <option value="south_indian" {% if item.category == "south_indian" %}selected{% endif %}>South Indian</option>
+        <option value="sri_lankan"  {% if item.category == "sri_lankan"  %}selected{% endif %}>Sri Lankan</option>
+    </select>
+
+    <label class="form-label mt-2">Price (€)</label>
+    <input type="number" class="form-control" step="0.01" name="price" value="{{ item.price }}" required>
+
+     <label>Upload Image</label>
+    <input type="file" name="image_file" accept="image/*">
+
+
+    <button class="btn btn-custom mt-4">Save Changes</button>
+    <a href="/admin/menu" class="btn btn-secondary mt-4">Cancel</a>
+
+</form>
+
+{% endblock %}

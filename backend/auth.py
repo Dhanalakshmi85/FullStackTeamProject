@@ -1,64 +1,3 @@
-# from flask import request, jsonify
-# from datetime import datetime, timedelta, timezone
-# import os
-# import jwt
-# from models import User
-# from schemas import UserSchema
-
-# def post_login():
-#     """
-#     Handle user login and return JWT token if credentials are correct.
-#     """
-#     try:
-#         data = request.get_json() or {}
-#         username = data.get("username")
-#         password = data.get("password")
-
-#         # Validate input
-#         if not username or not password:
-#             return jsonify({"message": "Username and password are required"}), 400
-
-#         # Verify credentials
-#         user = User.verify_credentials(username, password)  # bcrypt internally
-#         if not user:
-#             return jsonify({"message": "Invalid credentials"}), 401
-
-#         # Get JWT secret from environment
-#         jwt_secret = os.getenv("JWT_SECRET_KEY")
-#         if not jwt_secret:
-#             # Do NOT use fallback secret in production
-#             return jsonify({"message": "Server configuration error"}), 500
-
-#         # Create JWT payload with expiration (24 hours)
-#         payload = {
-#             "user_id": str(user.id),
-#             "username": user.username,
-#             "exp": int((datetime.now(timezone.utc) + timedelta(hours=24)).timestamp())
-#         }
-
-#         # Encode token
-#         token = jwt.encode(payload, jwt_secret, algorithm="HS256")
-
-#         # Return user data and token
-#         return jsonify({
-#             "message": "Login successful",
-#             "user": UserSchema().dump(user),
-#             "token": token
-#         }), 200
-
-#     except Exception as e:
-#         # Log exception in real app, do not expose details in production
-#         return jsonify({"message": "Internal server error"}), 500
-
-
-# @auth.route("/force-admin")
-# def force_admin():
-#     session["logged_in"] = True
-#     session["role"] = "admin"
-#     session["email"] = "test-admin@example.com"
-#     return redirect("/admin")
-
-
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from backend.models import get_user_by_email, create_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -76,13 +15,6 @@ def login():
 
         user = get_user_by_email(email)
         print("DEBUG: user:", user)
-
-        # if not user:
-        #     return render_template("login.html", error="User not found")
-
-        # # Use Werkzeug check_password_hash (works with your stored scrypt hashes)
-        # if not check_password_hash(user["password"], password):
-        #     return render_template("login.html", error="Incorrect password")
 
         # Save session
         session["logged_in"] = True
@@ -111,16 +43,6 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
-
-
-# FORCE ADMIN — FOR TESTING WITHOUT LOGIN PAGE
-# @auth.route("/force-admin")
-# def force_admin():
-#     session["logged_in"] = True
-#     session["role"] = "admin"
-#     session["email"] = "forced-admin@example.com"
-#     return redirect("/admin")
-
 
 
 @auth.route("/signup", methods=["GET", "POST"])

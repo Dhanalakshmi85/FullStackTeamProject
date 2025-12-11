@@ -1,94 +1,89 @@
-function sanitizeName(name) {
-    return name.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-_]/g, '');
-}
+// cart.js - render cart and place order
 
-// Load cart from localStorage and render it
 function loadCart() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("cart-items");
+    const totalEl = document.getElementById("cart-total");
+
+    if (!container || !totalEl) return;
+
     let html = "";
     let total = 0;
 
     cart.forEach(item => {
-        total += item.price * item.qty;
-        const safeName = sanitizeName(item.name);
+        const subtotal = (Number(item.price) || 0) * (Number(item.qty) || 0);
+        total += subtotal;
+        const safeName = encodeURIComponent(item.name);
 
         html += `
-        <div class="cart-row">
-            <strong>${item.name}</strong>
-            — €${(item.price * item.qty).toFixed(2)}
-            <br>
+          <div class="cart-row" data-id="${item.id}">
+            <strong>${item.name}</strong> — €${subtotal.toFixed(2)}<br>
             Qty:
-            <button onclick="updateQty('${item.name}', -1)">-</button>
-            <span id="qty-${safeName}">${item.qty}</span>
-            <button onclick="updateQty('${item.name}', 1)">+</button>
-            <br>
-        </div>
+            <button onclick="updateQtyCart('${safeName}', -1)">-</button>
+            <span id="cart-qty-${item.id}">${item.qty}</span>
+            <button onclick="updateQtyCart('${safeName}', 1)">+</button>
+          </div>
         `;
     });
 
-    document.getElementById("cart-items").innerHTML = html;
-    document.getElementById("cart-total").innerText = total.toFixed(2);
+    container.innerHTML = html;
+    totalEl.innerText = total.toFixed(2);
 }
 
+// update qty from cart page (nameEncoded)
+function updateQtyCart(nameEncoded, delta) {
+    const name = decodeURIComponent(nameEncoded);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const idx = cart.findIndex(it => it.name === name);
+    if (idx === -1) return;
+
+    cart[idx].qty = Number(cart[idx].qty) + Number(delta);
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    if (typeof updateCartCount === "function") updateCartCount();
+    loadCart();
+}
 
 async function placeOrder() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
+    if (!cart.length) {
+        alert("Cart is empty");
         return;
     }
 
+    // defensive normalization: ensure price and qty are numbers
+    const normalized = cart.map(c => ({
+        id: c.id,
+        name: c.name,
+        price: Number(c.price) || 0,
+        qty: Number(c.qty) || 0
+    })).filter(c => c.qty > 0);
+
     try {
-        const response = await fetch("/place-order", {
+        const resp = await fetch("/place-order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cart: cart })
+            body: JSON.stringify({ cart: normalized })
         });
 
-        const result = await response.json();
-
-        if (result.success) {
-            alert("Order placed successfully!");
-
-            // clear cart
+        const data = await resp.json();
+        if (data.success) {
             localStorage.removeItem("cart");
-
-            // redirect if you want
-            window.location.href = "/menu";  
+            if (typeof updateCartCount === "function") updateCartCount();
+            alert("Order placed!");
+            window.location.href = "/menu";
         } else {
-            alert("Failed to place order.");
+            alert("Order failed: " + (data.message || "unknown"));
         }
-
-    } catch (error) {
-        console.error("Order Error:", error);
-        alert("Something went wrong while placing the order.");
+    } catch (err) {
+        console.error("placeOrder error", err);
+        alert("Error placing order");
     }
 }
 
-
-
-// Update quantity for a cart item
-function updateQty(name, amt) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let item = cart.find(i => i.name === name);
-    if (!item) return;
-
-    item.qty += amt;
-
-    // Optional: remove item if quantity < 1
-    if (item.qty < 1) {
-        cart = cart.filter(i => i.name !== name);
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
+document.addEventListener("DOMContentLoaded", () => {
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) checkoutBtn.addEventListener("click", placeOrder);
     loadCart();
-    updateCartCount();
-}
-
-
-document.getElementById("checkout-btn").addEventListener("click", placeOrder);
-
-
-// Initial load
-window.addEventListener("load", loadCart);
+});

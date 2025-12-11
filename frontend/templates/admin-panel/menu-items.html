@@ -31,7 +31,8 @@
 
             <td>
                 {% if item.image %}
-                    <img src="{{ item.image }}" style="width:60px;height:60px;border-radius:8px;">
+                   <img src="{{ url_for('static', filename='img/' ~ item.image) }}"
+                   style="width:60px;height:60px;border-radius:8px;">
                 {% else %}
                     <span>No Image</span>
                 {% endif %}
@@ -79,8 +80,8 @@
           <label class="form-label mt-2">Price (€)</label>
           <input type="number" class="form-control" name="price" step="0.01" required>
 
-          <label class="form-label mt-2">Image URL</label>
-          <input type="text" class="form-control" name="image_url">
+           <label class="form-label mt-2">Upload Image</label>
+          <input type="file" class="form-control" name="image_file" accept="image/*">
         </div>
 
         <div class="modal-footer">

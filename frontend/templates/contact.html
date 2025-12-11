@@ -9,20 +9,33 @@
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar">
-      <div class="logo">My Restaurant</div>
-      <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/menu">Menu</a></li>
-          <li><a href="/login">Login</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <a href="/cart" class="cart-link"> 🛒 <span id="cart-count">0</span></a>
-      </ul>
-  </nav>
+ <header>
+    <h1>My Restaurant</h1>
+    <nav>
+      <a href="{{ url_for('main.home') }}">Home</a>
+      <a href="{{ url_for('main.menu') }}">Menu</a>
+      <a href="{{ url_for('main.contact') }}">Contact</a>
+      <a href="{{ url_for('main.reservation') }}">Reservation</a>
 
-  <header>
-    <h1>Contact Us</h1>
-  </header>
+      <a href="/cart" class="cart-link">
+      🛒 <span id="cart-count">0</span></a>
+
+       <!-- Login/Logout dynamic links -->
+     {% if session.get('logged_in') %}
+      <span>Hello, {{ session.get('email') }}</span>
+      <a href="{{ url_for('auth.logout') }}">Logout</a>
+      {% if session.get('role') == 'admin' %}
+        <a href="/admin/dashboard">Admin Dashboard</a>
+      {% endif %}
+     {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    {% endif %}
+      
+    </nav>
+ </header>
+
+  <h1>Contact Us</h1>
+  
 
   <main class="contact-container">
     <!-- Contact Info -->
@@ -49,53 +62,49 @@
     
   </main>
 
-  <!-- ⭐ REVIEWS SECTION -->
-  <section class="reviews-section">
-    <h2>Customer Reviews</h2>
+ <section class="reviews-section">
+  <h2>Customer Reviews</h2>
 
-    <div class="reviews-list">
+  <div class="reviews-list">
+    <!-- Existing reviews can be rendered here dynamically with Jinja -->
+    {% for r in reviews %}
       <div class="review">
-        <h3>John Doe</h3>
-        <p class="rating">★★★★★</p>
-        <p>Great food and very friendly staff. Loved it!</p>
+        <h3>{{ r.user_id }}</h3>
+        <p class="rating">
+          {% for i in range(r.rating) %}★{% endfor %}
+          {% for i in range(5 - r.rating) %}☆{% endfor %}
+        </p>
+        <p>{{ r.comment }}</p>
       </div>
+    {% endfor %}
+  </div>
 
-      <div class="review">
-        <h3>Sarah K.</h3>
-        <p class="rating">★★★★☆</p>
-        <p>The ambiance is lovely. Would definitely visit again!</p>
-      </div>
-    </div>
+  <div class="add-review">
+    <h3>Add Your Review</h3>
 
-    <div class="add-review">
-      <h3>Add Your Review</h3>
-      <form action="#" method="post">
-        <label for="review-name">Full Name</label>
-        <input type="text" id="review-name" name="review-name" required>
+    <!-- Updated form -->
+    <form action="{{ url_for('main.add_review') }}" method="post">
+      <label for="review-name">Full Name</label>
+      <input type="text" id="review-name" name="review-name" required>
 
-        <label for="review-rating">Rating</label>
-        <select id="review-rating" name="review-rating" required>
-          <option value="5">★★★★★ - 5 Stars</option>
-          <option value="4">★★★★☆ - 4 Stars</option>
-          <option value="3">★★★☆☆ - 3 Stars</option>
-          <option value="2">★★☆☆☆ - 2 Stars</option>
-          <option value="1">★☆☆☆☆ - 1 Star</option>
-        </select>
-        
+      <label for="review-rating">Rating</label>
+      <select id="review-rating" name="review-rating" required>
+        <option value="5">★★★★★ - 5 Stars</option>
+        <option value="4">★★★★☆ - 4 Stars</option>
+        <option value="3">★★★☆☆ - 3 Stars</option>
+        <option value="2">★★☆☆☆ - 2 Stars</option>
+        <option value="1">★☆☆☆☆ - 1 Star</option>
+      </select>
 
-        <label for="review-message">Your Review</label>
-    
-        <textarea id="review-message" name="review-message" rows="4" required></textarea>
-        </div>
+      <label for="review-message">Your Review</label>
+      <textarea id="review-message" name="review-message" rows="4" required></textarea>
 
-        <div class ="check">
+      <div class="check">
         <button type="submit" class="button">Submit Review</button>
-        </div>
-      
-        
-      </form>
-    
-  </section>
+      </div>
+    </form>
+  </div>
+</section>
 
   <script src="/frontend/static/js/cartCount.js"></script>
 

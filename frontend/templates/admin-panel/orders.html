@@ -1,4 +1,3 @@
-ADMINPANEL
 {% extends "layout.html" %}
 
 {% block head %}
@@ -27,9 +26,27 @@ ADMINPANEL
     text-align: center;
 }
 
-.badge {
-    padding: 5px 10px;
-    border-radius: 12px;
+.status-select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.status-select.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-select.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-select.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
 }
 </style>
 {% endblock %}
@@ -64,12 +81,18 @@ ADMINPANEL
     <td>${{ "%.2f"|format(order["total"]) }}</td>
     <td>
         <form action="{{ url_for('admin_bp.update_order_status', order_id=order._id) }}" method="POST">
-        <select name="status" onchange="this.form.submit()">
+        <select name="status"
+            class="status-select
+                {% if order.status == 'Pending' %}pending{% endif %}
+                {% if order.status == 'Completed' %}completed{% endif %}
+                {% if order.status == 'Cancelled' %}cancelled{% endif %}"
+            onchange="this.form.submit()">
+            
             <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
             <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
             <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
         </select>
-    </form>
+        </form>
     </td>
     <td>{{ order["time"] }}</td>
 </tr>
@@ -78,4 +101,5 @@ ADMINPANEL
     </table>
 </div>
 {% endblock %}
+
 

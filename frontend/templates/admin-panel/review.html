@@ -9,7 +9,7 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         margin: 40px auto;
         width: 90%;
-        max-width: 800px;
+        max-width: 900px;
     }
     .table-reviews thead {
         background-color: #ff99cc;
@@ -21,6 +21,23 @@
     .table-reviews td, .table-reviews th {
         padding: 15px;
         text-align: center;
+    }
+    .badge {
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    .delete-btn {
+        background-color: #4a004e;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .delete-btn:hover {
+        background-color: #ff3366;
     }
 </style>
 {% endblock %}
@@ -37,6 +54,7 @@
                 <th>User</th>
                 <th>Review</th>
                 <th>Rating</th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -50,6 +68,14 @@
                     {% for i in range(r.rating) %}
                         ★
                     {% endfor %}
+                    {% for i in range(5 - r.rating) %}
+                        ☆
+                    {% endfor %}
+                </td>
+                <td>
+                    <form action="{{ url_for('admin_bp.delete_review', review_id=r._id) }}" method="post">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -57,4 +83,3 @@
     </table>
 </div>
 {% endblock %}
-

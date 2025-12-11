@@ -8,17 +8,30 @@
 </head>
 <body>
     <!-- ✅ Added Navbar -->
-  <nav class="navbar">
-      <div class="logo">My Restaurant</div>
-      <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/menu">Menu</a></li>
-          <li><a href="/login">Login</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <a href="/cart" class="cart-link">
-          🛒 <span id="cart-count">0</span></a>
-      </ul>
-  </nav>
+    <header>
+    <h1>My Restaurant</h1>
+    <nav>
+      <a href="{{ url_for('main.home') }}">Home</a>
+      <a href="{{ url_for('main.menu') }}">Menu</a>
+      <a href="{{ url_for('main.contact') }}">Contact</a>
+      <a href="{{ url_for('main.reservation') }}">Reservation</a>
+
+      <a href="/cart" class="cart-link">
+      🛒 <span id="cart-count">0</span></a>
+
+       <!-- Login/Logout dynamic links -->
+     {% if session.get('logged_in') %}
+      <span>Hello, {{ session.get('email') }}</span>
+      <a href="{{ url_for('auth.logout') }}">Logout</a>
+      {% if session.get('role') == 'admin' %}
+        <a href="/admin/dashboard">Admin Dashboard</a>
+      {% endif %}
+     {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    {% endif %}
+      
+    </nav>
+  </header>
   <!-- ✅ End Navbar -->
     <section class="reservation-container">
         <h1 class="title">MAKE A RESERVATION</h1>
