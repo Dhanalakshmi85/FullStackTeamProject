@@ -1,3 +1,70 @@
+<style>
+    body {
+        background: #f5f7fa;
+        font-family: "Poppins", sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    #cart-items {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto 20px auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h3, p {
+        text-align: center;
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    /* Button styling */
+    #checkout-btn, 
+    .btn-primary {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        margin: 10px 5px;
+        display: inline-block;
+    }
+
+    #checkout-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+    }
+
+    #checkout-btn:hover {
+        opacity: 0.9;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.9;
+    }
+
+    /* Buttons center alignment */
+    .cart-actions {
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+
+
 <h2>Your Cart</h2>
 
 <div id="cart-items"></div>
@@ -6,14 +73,15 @@
 
 <p>Items in cart: <span id="cart-count">0</span></p>
 
-
-<!-- Checkout button -->
-<button id="checkout-btn" class="btn btn-success" onclick="placeOrder()">Place Order</button>
-
-<a href="/menu" class="btn btn-primary">Continue Shopping</a>
+<!-- Buttons centered -->
+<div class="cart-actions">
+    <button id="checkout-btn" class="btn btn-success" onclick="placeOrder()">Place Order</button>
+    <a href="/menu" class="btn btn-primary">Continue Shopping</a>
+</div>
 
 <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/cartCount.js') }}"></script>
 <script src="{{ url_for('static', filename='js/menucart.js') }}"></script>
+
 
 
