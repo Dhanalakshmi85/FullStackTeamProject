@@ -46,7 +46,6 @@ http://127.0.0.1:5000
 Deployment Link
 
 https://fullstackteamproject.onrender.com
-
 Future Improvements
 
 Add table reservation feature in admin panel
