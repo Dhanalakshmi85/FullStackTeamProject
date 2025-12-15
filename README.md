@@ -1,28 +1,61 @@
 # FullStackTeamProject
 
-1. What does the project do?
-A full-stack restaurant website where users can view the menu, see today's specials and place orders. Admins can manage menu items, reviews and orders.
+What Does the Project Do?
 
-2. Why the project is useful?
-It demonstrate a real web system which is build using Flask framework and MongoDB. It helps restaurants manage their online menu, and it helps us in learning full stack development.
+A full-stack restaurant web application.
 
-3. How to get started?
+Users can view the menu, see today’s specials, and place orders.
 
-1. First we have to clone the project.
-eg. git clone <repo-url>
+Admins can manage menu items, customer reviews, and orders.
+
+Why Is the Project Useful?
+
+Demonstrates a real-world web application using Flask and MongoDB.
+
+Helps restaurants manage their online menu and orders efficiently.
+
+Helps students learn full-stack development (frontend, backend, database).
+
+How to Get Started
+
+Clone the project
+
+git clone <repository-url>
 cd FullStackTeamProject
 
-2. Create virtual environment and install packages:
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
 
-3. Set your MongoDB connection in backend/db.py
-4. Run the app
-eg. python app.py
+Create virtual environment and install packages
 
-5. Open:http://127.0.0.1:5000
-6. Deployment link:https://fullstackteamproject.onrender.com
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+
+Configure MongoDB connection in
+backend/db.py
+
+Run the application
+
+python app.py
+
+
+Open in browser
+
+http://127.0.0.1:5000
+
+Deployment Link
+
+https://fullstackteamproject.onrender.com
+
+Future Improvements
+
+Add table reservation feature in admin panel
+
+Make the webpage more interactive
+
+Integrate online payment for orders
+
+Fix existing bugs and improve performance
       
 Future Improvements
 
