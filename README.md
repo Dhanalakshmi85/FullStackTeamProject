@@ -24,3 +24,9 @@ eg. python app.py
 5. Open:http://127.0.0.1:5000
 6. Deployment link:https://fullstackteamproject.onrender.com
       
+Future Improvements
+
+1.Create a reservation for the admin panel.
+2.Make the webpage more interactive
+3.Add payment details by placing orders
+4.To fix the bugs 
